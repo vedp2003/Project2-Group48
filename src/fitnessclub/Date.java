@@ -105,15 +105,6 @@ public class Date implements Comparable<Date> {
     }
 
     /**
-     * Determines if the date is before the year 1900
-     *
-     * @return true if the date is before 1900; false otherwise
-     */
-    public boolean isBefore1900() {
-        return this.year < 1900;
-    }
-
-    /**
      * Compare two Date objects based on year, month, and day
      *
      * @param o the date object to be compared
