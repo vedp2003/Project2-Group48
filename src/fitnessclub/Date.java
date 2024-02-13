@@ -105,6 +105,24 @@ public class Date implements Comparable<Date> {
     }
 
     /**
+     * Checks if the date is less than 18 years from today's date
+     * @return true if the date was more than 18 years ago, false otherwise
+     */
+    public boolean isLessThan18(){
+        Calendar calendarInstance = Calendar.getInstance();
+        int currentYear = calendarInstance.get(Calendar.YEAR);
+        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1; //since Calendar numbers months from 0 to 11
+
+        if ((currentYear - this.year) < 18) {
+            return true;
+        }
+        else if ((currentYear - this.year) == 18) {
+            return this.month > currentMonth;
+        }
+        return false;
+    }
+
+    /**
      * Compare two Date objects based on year, month, and day
      *
      * @param o the date object to be compared

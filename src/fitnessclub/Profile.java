@@ -5,6 +5,12 @@ public class Profile implements Comparable<Profile> {
     private String lname;
     private Date dob;
 
+    public Profile() {
+        this.fname = null;
+        this.lname = null;
+        this.dob = null;
+    }
+
     public Profile(String fname, String lname, Date dob) {
         this.fname = fname;
         this.lname = lname;
@@ -35,20 +41,20 @@ public class Profile implements Comparable<Profile> {
 
     @Override
     public String toString() {
-        return fname + ":" + lname + ":" + dob.toString();
+        return this.fname + ":" + this.lname + ":" + this.dob;
     }
 
 
     @Override
     public int compareTo(Profile o) {
-        int lastNameCompare = lname.compareTo(o.lname);
-        int firstNameCompare = fname.compareTo(o.fname);
+        int lastNameCompare = this.lname.compareTo(o.lname);
+        int firstNameCompare = this.fname.compareTo(o.fname);
         if(lastNameCompare != 0) {
             return lastNameCompare;
         }
         if(firstNameCompare != 0) {
             return firstNameCompare;
         }
-        return dob.compareTo(o.dob);
+        return this.dob.compareTo(o.dob);
     }
 }
