@@ -16,8 +16,28 @@ public class Premium extends Member {
         return guestPass;
     }
 
+    public void useGuestPass() {
+        guestPass --;
+    }
     @Override
     public double bill() {
         return MONTHLY_FEE * (MONTHS_IN_YEAR - FREE_MONTHS);
+    }
+
+    @Override
+    public String toString() {
+
+        String result = "";
+        String guestPassStatus = "" + this.getGuestPass();
+
+        if (isExpired()) {
+            guestPassStatus = "not eligible";
+            result = ", (Premium) guest-pass remaining: " + guestPassStatus;
+        }
+        else{
+            result = " (Premium) Guest-pass remaining: " + guestPassStatus;
+        }
+
+        return super.toString() + result;
     }
 }

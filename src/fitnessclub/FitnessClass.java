@@ -8,13 +8,35 @@ public class FitnessClass {
     private MemberList members;
     private MemberList guests;
 
-    public FitnessClass(Offer classInfo, Instructor instructor, Location studio, Time time) {
+    public FitnessClass(Offer classInfo, Instructor instructor, Location studio, Time time, MemberList members, MemberList guests) {
         this.classInfo = classInfo;
         this.instructor = instructor;
         this.studio = studio;
         this.time = time;
         this.members = new MemberList();
         this.guests = new MemberList();
+    }
+    public FitnessClass(Offer classInfo, Instructor instructor, Location studio, Time time) {
+        this.classInfo = classInfo;
+        this.instructor = instructor;
+        this.studio = studio;
+        this.time = time;
+    }
+
+    public void setClassInfo(Offer classInfo) {
+        this.classInfo = classInfo;
+    }
+
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
+    }
+
+    public void setStudio(Location studio) {
+        this.studio = studio;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 
     public boolean addMember(Member member) {

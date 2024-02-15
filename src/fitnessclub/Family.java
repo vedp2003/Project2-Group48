@@ -15,8 +15,28 @@ public class Family extends Member {
         return guest;
     }
 
+    public void setGuest(boolean guest) {
+        this.guest = guest;
+    }
+
     @Override
     public double bill() {
         return MONTHLY_FEE * BILLING_CYCLE_MONTHS;
+    }
+
+    @Override
+    public String toString() {
+
+        String guestPassStatus = "";
+
+        if(isGuest()){
+            guestPassStatus = "1";
+        }
+
+        if (isExpired()) {
+            guestPassStatus = "not eligible";
+        }
+
+        return super.toString() + ", (Family) guest-pass remaining: " + guestPassStatus;
     }
 }

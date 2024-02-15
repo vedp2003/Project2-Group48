@@ -24,4 +24,9 @@ public class Basic extends Member {
         }
         return billAmount;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", (Basic) number of classes attended: " + this.getNumClasses();
+    }
 }

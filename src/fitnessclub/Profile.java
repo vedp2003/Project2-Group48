@@ -33,7 +33,7 @@ public class Profile implements Comparable<Profile> {
     public boolean equals(Object obj) {
         if (obj instanceof Profile) {
             Profile profile = (Profile) obj;
-            return this.fname.equals(profile.fname) && this.lname.equals(profile.lname)
+            return this.fname.equalsIgnoreCase(profile.fname) && this.lname.equalsIgnoreCase(profile.lname)
                     && this.dob.equals(profile.dob);
         }
         return false;
@@ -47,8 +47,8 @@ public class Profile implements Comparable<Profile> {
 
     @Override
     public int compareTo(Profile o) {
-        int lastNameCompare = this.lname.compareTo(o.lname);
-        int firstNameCompare = this.fname.compareTo(o.fname);
+        int lastNameCompare = this.lname.compareToIgnoreCase(o.lname);
+        int firstNameCompare = this.fname.compareToIgnoreCase(o.fname);
         if(lastNameCompare != 0) {
             return lastNameCompare;
         }

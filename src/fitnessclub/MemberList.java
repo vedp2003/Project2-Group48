@@ -27,7 +27,7 @@ public class MemberList {
 
     private int find(Member member) {
         for (int index = 0; index < size; index++) {
-            if (members[index].equals(member)) {
+            if (members[index].compareTo(member) == 0) {
                 return index;
             }
         }
@@ -46,6 +46,15 @@ public class MemberList {
 
     public boolean contains(Member member) {
         return find(member) != NOT_FOUND;
+    }
+
+    public boolean containsProf(Profile profile) {
+        for (Member member : this.members) {
+            if (member != null && member.getProfile().equals(profile)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean add(Member member) {
@@ -74,21 +83,59 @@ public class MemberList {
     }
 
     public void load(File file) throws IOException {
+
         Scanner scanner = new Scanner(file);
+        int i = 0;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            Member newMember = parseMember(line);
-            if (newMember != null) {
-                add(newMember);
+            if(line.isEmpty()){
+                line = scanner.nextLine();
+            }
+            String[] parts = line.split("\\s");
+            String type = parts[0];
+            String firstName = parts[1];
+            String lastName = parts[2];
+            Date dob = new Date(parts[3]);
+            Date expire = new Date(parts[4]);
+            Location homeStudio = Location.valueOf(parts[5].toUpperCase());
+
+            Member member;
+            switch (type) {
+                case "B":
+                    member = new Basic(new Profile(firstName, lastName, dob), expire, homeStudio, 0);
+                    this.add(member);
+                    break;
+                case "F":
+                    member = new Family(new Profile(firstName, lastName, dob), expire, homeStudio, false);
+                    this.add(member);
+                    break;
+                case "P":
+                    member = new Premium(new Profile(firstName, lastName, dob), expire, homeStudio, 3);
+                    this.add(member);
+                    break;
+                default:
+                    break;
             }
         }
         scanner.close();
+        System.out.println("-list of members loaded-");
+        printMembers();
+        System.out.println("-end of list-");
 
     }//from the text file
 
-    private Member parseMember(String line) {
-        // his method would need to parse a line of text into a Member object based on txt
-        return null;
+    public void printMembers() {
+        for (int i = 0; i < size; i++) {
+            System.out.println(members[i]);
+        }
+    }
+    public boolean sameProfile(Profile profile) {
+        for (int i = 0; i < size; i++) {
+            if(members[i].getProfile().equals(profile)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void printByCounty() {
@@ -139,4 +186,8 @@ public class MemberList {
             }
         }
     } //sort by member profile
+
+    public void printFees() {
+
+    } //print the array as is with the next due amounts
 }

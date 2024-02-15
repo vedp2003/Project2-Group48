@@ -1,7 +1,9 @@
 package fitnessclub;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class StudioManager {
@@ -16,15 +18,30 @@ public class StudioManager {
 
     public void run() {
         try {
-            memberList.load(new File("memberList.txt"));
-            schedule.load(new File("classSchedule.txt"));
+            try {
+                memberList.load(new File("memberList.txt"));
+
+                schedule.load(new File("classSchedule.txt"));
+            } catch (NoSuchElementException e) {
+                return;
+            }
+            catch (NumberFormatException e) {
+                return;
+            }
+            catch (FileNotFoundException e) {
+                return;
+            }
+
             System.out.println("Studio Manager is up running...");
 
             Scanner scanner = new Scanner(System.in);
             String input;
             while (true) {
                 input = scanner.nextLine();
-                if (input.equalsIgnoreCase("Q")) {
+                while (input.isEmpty()) {
+                    input = scanner.nextLine();
+                }
+                if (input.equals("Q")) {
                     System.out.println("Studio Manager terminated.");
                     break;
                 }
@@ -37,8 +54,8 @@ public class StudioManager {
     }
 
     private void processCommand(String command) {
-        String[] tokens = command.split("\\s+");
-        String cmd = tokens[0].toUpperCase();
+        String[] tokens = command.split(" ");
+        String cmd = tokens[0];
 
         try {
             switch (cmd) {
@@ -79,7 +96,7 @@ public class StudioManager {
                     unregisterGuestFromClass(tokens);
                     break;
                 default:
-                    System.out.println("Invalid command!");
+                    System.out.println(cmd + " is an invalid command!");
                     break;
             }
         } catch (Exception e) {
@@ -88,7 +105,52 @@ public class StudioManager {
     }
 
     private void addBasicMember(String[] tokens) {
-        // Add Basic member logic here
+        if (tokens.length != 5) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+
+        String firstName = tokens[1];
+        String lastName = tokens[2];
+        String dobStr = tokens[3];
+        String studioStr = tokens[4].toUpperCase();
+
+        Date dob = new Date(dobStr);
+        if (!dob.isValid()) {
+            System.out.println("DOB " + dobStr + ": invalid calendar date!");
+            return;
+        }
+
+        if (dob.isTodayOrFutureDate()) {
+            System.out.println("DOB " + dobStr + ": cannot be today or a future date!");
+            return;
+        }
+
+        if (dob.isLessThan18(dob)) {
+            System.out.println("DOB " + dobStr + ": must be 18 or older to join!");
+            return;
+        }
+
+        Location studio;
+        try {
+            studio = Location.valueOf(studioStr);
+        } catch (IllegalArgumentException e) {
+            System.out.println(studioStr + ": invalid studio location!");
+            return;
+        }
+
+        Profile newProfile = new Profile(firstName, lastName, dob);
+
+        if (memberList.sameProfile(newProfile)) {
+            System.out.println(firstName + " " + lastName + " is already in the member database.");
+            return;
+        }
+
+        // Assuming the current date is used to set the membership expiration date to one month later
+        Date expireDate = dob.plusMonths(1); // Ensure the Date class has a method to add months to a date
+        Member newMember = new Basic(newProfile, expireDate, studio, 0); // Assuming 0 classes attended initially
+        memberList.add(newMember);
+        System.out.println("Basic member added.");
     }
 
     private void addFamilyMember(String[] tokens) {
