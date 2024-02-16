@@ -57,6 +57,17 @@ public class MemberList {
         return false;
     }
 
+    public Member getMember(Profile profile) {
+        int memberIndex = -1;
+        for (int i = 0; i < members.length; i++) {
+            if (members[i] != null && members[i].getProfile().equals(profile)) {
+                memberIndex = i;
+                break;
+            }
+        }
+        return members[memberIndex];
+    }
+
     public boolean add(Member member) {
         if (contains(member)) {
             return false;
@@ -179,15 +190,25 @@ public class MemberList {
             members[j + 1] = key;
         }
 
+        System.out.println("-list of members sorted by member profiles-");
+
         //MAYBE NO SYSTEM.OUT ALLOWED - check
         for (Member member : members) {
             if (member != null) {
                 System.out.println(member);
             }
         }
+        System.out.println("-end of list-");
+
     } //sort by member profile
 
     public void printFees() {
+
+        System.out.println("-list of members with next dues-");
+
+        System.out.println("-end of list-");
+
+
 
     } //print the array as is with the next due amounts
 }

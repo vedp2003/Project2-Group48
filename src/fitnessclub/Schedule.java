@@ -41,6 +41,7 @@ public class Schedule {
     private int find(FitnessClass fitnessClass) {
         for (int index = 0; index < numClasses; index++) {
             if (classes[index].equals(fitnessClass)) {
+
                 return index;
             }
         }
@@ -53,9 +54,9 @@ public class Schedule {
     }
 
     public boolean add(FitnessClass fitnessClass) {
-//        if (contains(fitnessClass)) {
-//            return false;
-//        }
+        if (contains(fitnessClass)) {
+            return false;
+        }
         if (numClasses >= classes.length) { //intially had this as ==
             grow();
         }

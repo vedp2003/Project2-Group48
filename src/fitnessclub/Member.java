@@ -52,7 +52,5 @@ public class Member implements Comparable<Member> {
         }
 
         return this.profile + ", " + memberStatus + " " + this.expire + ", Home Studio: " + homeStudio;
-
-        //return this.profile + ", Membership expires " + this.expire + ", Home Studio: " + homeStudio;
     }
 }

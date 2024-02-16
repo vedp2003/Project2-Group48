@@ -116,6 +116,8 @@ public class Date implements Comparable<Date> {
      * @return true if the date was more than 18 years ago, false otherwise
      */
     public boolean isLessThan18(Date dob){
+
+
         Calendar calendarInstance = Calendar.getInstance();
         int currentYear = calendarInstance.get(Calendar.YEAR);
         int currentMonth = calendarInstance.get(Calendar.MONTH) + 1; //since Calendar numbers months from 0 to 11
@@ -130,17 +132,32 @@ public class Date implements Comparable<Date> {
     }
 
     public Date plusMonths(int months) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, day); // Calendar months are 0-based.
-        calendar.add(Calendar.MONTH, months);
-        return new Date(calendar.get(Calendar.MONTH) + 1 + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
+        month += months;
+
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.set(year, month - 1, day); // Calendar months are 0-based.
+        //calendar.add(Calendar.MONTH, months);
+        return new Date(month + "/" + day + "/" + year);
     }
 
     public Date plusYears(int years) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month - 1, day);
-        calendar.add(Calendar.YEAR, years);
-        return new Date(calendar.get(Calendar.MONTH) + 1 + "/" + calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.YEAR));
+
+        year += years;
+
+        //Calendar calendar = Calendar.getInstance();
+        //calendar.set(year, month - 1, day);
+        //calendar.add(Calendar.YEAR, years);
+        return new Date(month + "/" + day + "/" + year);
+    }
+    public boolean isExpired() {
+        Calendar calendarInstance = Calendar.getInstance();
+        int currentYear = calendarInstance.get(Calendar.YEAR);
+        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
+        int currentDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
+
+        return (this.year < currentYear) || (this.year == currentYear && this.month < currentMonth) ||
+                (this.year == currentYear && this.month == currentMonth && this.day < currentDay);
+
     }
 
     /**

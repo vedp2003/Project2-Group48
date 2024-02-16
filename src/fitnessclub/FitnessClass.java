@@ -22,6 +22,11 @@ public class FitnessClass {
         this.studio = studio;
         this.time = time;
     }
+    public FitnessClass(Offer classInfo, Instructor instructor, Location studio) {
+        this.classInfo = classInfo;
+        this.instructor = instructor;
+        this.studio = studio;
+    }
 
     public void setClassInfo(Offer classInfo) {
         this.classInfo = classInfo;
