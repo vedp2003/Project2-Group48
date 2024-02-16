@@ -113,7 +113,7 @@ public class StudioManager {
         String firstName = tokens[1];
         String lastName = tokens[2];
         String dobStr = tokens[3];
-        String studioStr = tokens[4].toUpperCase();
+        String studioStr = tokens[4];
 
         Date dob = new Date(dobStr);
         if (!dob.isValid()) {
@@ -133,7 +133,7 @@ public class StudioManager {
 
         Location studio;
         try {
-            studio = Location.valueOf(studioStr);
+            studio = Location.valueOf(studioStr.toUpperCase());
         } catch (IllegalArgumentException e) {
             System.out.println(studioStr + ": invalid studio location!");
             return;
@@ -153,11 +153,100 @@ public class StudioManager {
     }
 
     private void addFamilyMember(String[] tokens) {
-        // Add Family member logic here
+        if (tokens.length != 5) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+
+        String firstName = tokens[1];
+        String lastName = tokens[2];
+        String dobStr = tokens[3];
+        String studioStr = tokens[4];
+
+        Date dob = new Date(dobStr);
+        if (!dob.isValid()) {
+            System.out.println("DOB " + dobStr + ": invalid calendar date!");
+            return;
+        }
+
+        if (dob.isTodayOrFutureDate()) {
+            System.out.println("DOB " + dobStr + ": cannot be today or a future date!");
+            return;
+        }
+
+        if (dob.isLessThan18(dob)) {
+            System.out.println("DOB " + dobStr + ": must be 18 or older to join!");
+            return;
+        }
+
+        Location studio;
+        try {
+            studio = Location.valueOf(studioStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(studioStr + ": invalid studio location!");
+            return;
+        }
+
+        Profile newProfile = new Profile(firstName, lastName, dob);
+
+        if (memberList.sameProfile(newProfile)) {
+            System.out.println(firstName + " " + lastName + " is already in the member database.");
+            return;
+        }
+
+        Date expireDate = dob.plusMonths(3);
+        Member newMember = new Family(newProfile, expireDate, studio, true);
+        memberList.add(newMember);
+        System.out.println(firstName + " " + lastName + " added.");
+
     }
 
     private void addPremiumMember(String[] tokens) {
-        // Add Premium member logic here
+        if (tokens.length != 5) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+
+        String firstName = tokens[1];
+        String lastName = tokens[2];
+        String dobStr = tokens[3];
+        String studioStr = tokens[4];
+
+        Date dob = new Date(dobStr);
+        if (!dob.isValid()) {
+            System.out.println("DOB " + dobStr + ": invalid calendar date!");
+            return;
+        }
+
+        if (dob.isTodayOrFutureDate()) {
+            System.out.println("DOB " + dobStr + ": cannot be today or a future date!");
+            return;
+        }
+
+        if (dob.isLessThan18(dob)) {
+            System.out.println("DOB " + dobStr + ": must be 18 or older to join!");
+            return;
+        }
+
+        Location studio;
+        try {
+            studio = Location.valueOf(studioStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(studioStr + ": invalid studio location!");
+            return;
+        }
+
+        Profile newProfile = new Profile(firstName, lastName, dob);
+
+        if (memberList.sameProfile(newProfile)) {
+            System.out.println(firstName + " " + lastName + " is already in the member database.");
+            return;
+        }
+
+        Date expireDate = dob.plusYears(1);
+        Member newMember = new Premium(newProfile, expireDate, studio, 3);
+        memberList.add(newMember);
+        System.out.println(firstName + " " + lastName + " added.");
     }
 
     private void cancelMembership(String[] tokens) {
