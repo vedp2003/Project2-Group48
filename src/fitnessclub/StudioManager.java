@@ -100,7 +100,7 @@ public class StudioManager {
                     break;
             }
         } catch (Exception e) {
-            System.out.println("Error processing command: " + e.getMessage());
+            System.out.println("The date contains characters.");
         }
     }
 
@@ -146,11 +146,10 @@ public class StudioManager {
             return;
         }
 
-        // Assuming the current date is used to set the membership expiration date to one month later
-        Date expireDate = dob.plusMonths(1); // Ensure the Date class has a method to add months to a date
-        Member newMember = new Basic(newProfile, expireDate, studio, 0); // Assuming 0 classes attended initially
+        Date expireDate = dob.plusMonths(1);
+        Member newMember = new Basic(newProfile, expireDate, studio, 0);
         memberList.add(newMember);
-        System.out.println("Basic member added.");
+        System.out.println(firstName + " " + lastName + " added.");
     }
 
     private void addFamilyMember(String[] tokens) {
@@ -162,7 +161,41 @@ public class StudioManager {
     }
 
     private void cancelMembership(String[] tokens) {
-        // Logic to cancel membership
+        if (tokens.length != 4) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+
+        String firstName = tokens[1];
+        String lastName = tokens[2];
+        Date dob = new Date(tokens[3]);
+
+        //Profile newProfile = new Profile(firstName, lastName, dob);
+
+        //if (memberList.sameProfile(newProfile)) {
+
+        // Iterate over the member list to find and remove the member.
+        boolean foundAndRemoved = false;
+
+        for (Member member : memberList.getMembers()) {
+            if(member == null) {
+                foundAndRemoved = false;
+                break;
+            }
+            if (member.getProfile().getFname().equalsIgnoreCase(firstName) && member.getProfile().getLname().equalsIgnoreCase(lastName)
+            && member.getProfile().getDob().equals(dob)) {
+                foundAndRemoved = memberList.remove(member);
+                break;
+            }
+        }
+
+        if (foundAndRemoved) {
+            System.out.println(firstName + " " + lastName + " removed.");
+        } else {
+            System.out.println(firstName + " " + lastName + " is not in the member database.");
+        }
+
+
     }
 
     private void displayClassSchedule() {

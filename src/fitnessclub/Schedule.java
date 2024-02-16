@@ -80,7 +80,7 @@ public class Schedule {
     public void load(File file) throws IOException {
 
         classes = new FitnessClass[INITIAL_CAPACITY];
-        FitnessClass[] classesList = new FitnessClass[INITIAL_CAPACITY];
+        //FitnessClass[] classesList = new FitnessClass[INITIAL_CAPACITY];
 
         Scanner scanner = new Scanner(file);
         System.out.println("-Fitness classes loaded-");
@@ -88,7 +88,7 @@ public class Schedule {
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             if(line.isEmpty()){
-                line = scanner.nextLine();
+                continue;
             }
             String[] parts = line.split("\\s");
             Offer classType = Offer.valueOf(parts[0].toUpperCase().trim());

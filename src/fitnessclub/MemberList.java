@@ -106,7 +106,7 @@ public class MemberList {
                     this.add(member);
                     break;
                 case "F":
-                    member = new Family(new Profile(firstName, lastName, dob), expire, homeStudio, false);
+                    member = new Family(new Profile(firstName, lastName, dob), expire, homeStudio, true);
                     this.add(member);
                     break;
                 case "P":
