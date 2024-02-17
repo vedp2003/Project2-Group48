@@ -285,7 +285,6 @@ public class StudioManager {
             System.out.println(firstName + " " + lastName + " is not in the member database.");
         }
 
-
     }
 
     private void displayClassSchedule() {
@@ -299,7 +298,7 @@ public class StudioManager {
             // Display class info
             System.out.println(fitnessClass.getClassInfo() + " - " + fitnessClass.getInstructor() + ", " + fitnessClass.getTime() + ", " + fitnessClass.getStudio());
 
-            // Display attendees, leveraging Member's toString() for detailed info
+
             System.out.println("[Attendees]");
             for (Member member : fitnessClass.getMembers().getMembers()) {
                 if (member != null) {

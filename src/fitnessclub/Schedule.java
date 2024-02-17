@@ -10,6 +10,7 @@ public class Schedule {
     private FitnessClass [] classes;
     private int numClasses;
 
+
     public Schedule() {
         classes = new FitnessClass[INITIAL_CAPACITY];
         numClasses = 0;
@@ -111,5 +112,12 @@ public class Schedule {
         for (int i = 0; i < classes.length; i++) {
             System.out.println(classes[i].getClassInfo() + " - " + classes[i].getInstructor() + ", " + classes[i].getTime() + ", " + classes[i].getStudio().getName());
         }
+    }
+
+    public void addMemberToClass(Member member) {
+        for(int i = 0; i < classes.length; i++) {
+
+        }
+
     }
 }
