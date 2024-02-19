@@ -16,6 +16,11 @@ public class Basic extends Member {
         return numClasses;
     }
 
+
+    public void addClass() {
+        numClasses++;
+    }
+
     @Override
     public double bill() {
         double billAmount = MONTHLY_FEE;

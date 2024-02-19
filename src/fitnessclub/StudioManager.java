@@ -2,7 +2,6 @@ package fitnessclub;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Calendar;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -19,8 +18,10 @@ public class StudioManager {
     public void run() {
         try {
             try {
+                memberList = new MemberList();
                 memberList.load(new File("memberList.txt"));
 
+                schedule = new Schedule();
                 schedule.load(new File("classSchedule.txt"));
             } catch (NoSuchElementException e) {
                 return;
@@ -54,7 +55,7 @@ public class StudioManager {
     }
 
     private void processCommand(String command) {
-        String[] tokens = command.split(" ");
+        String[] tokens = command.split("\\s");
         String cmd = tokens[0];
 
         try {
@@ -84,7 +85,6 @@ public class StudioManager {
                     printMembershipFees();
                     break;
                 case "R":
-                    System.out.println("RRR reached");
                     registerForMemberClass(tokens);
                     break;
                 case "U":
@@ -260,11 +260,10 @@ public class StudioManager {
         String lastName = tokens[2];
         Date dob = new Date(tokens[3]);
 
-        //Profile newProfile = new Profile(firstName, lastName, dob);
+        Profile cancelProfile = new Profile(firstName, lastName, dob);
 
         //if (memberList.sameProfile(newProfile)) {
 
-        // Iterate over the member list to find and remove the member.
         boolean foundAndRemoved = false;
 
         for (Member member : memberList.getMembers()) {
@@ -272,8 +271,7 @@ public class StudioManager {
                 foundAndRemoved = false;
                 break;
             }
-            if (member.getProfile().getFname().equalsIgnoreCase(firstName) && member.getProfile().getLname().equalsIgnoreCase(lastName)
-            && member.getProfile().getDob().equals(dob)) {
+            if (member.getProfile().equals(cancelProfile)) {
                 foundAndRemoved = memberList.remove(member);
                 break;
             }
@@ -289,34 +287,34 @@ public class StudioManager {
 
     private void displayClassSchedule() {
         // Logic to display the class schedule
-        //THis method is not tested yet
         System.out.println("-Fitness classes-");
-        for (FitnessClass fitnessClass : schedule.getClasses()) {
-            if (fitnessClass == null)
-                continue;
-
-            // Display class info
-            System.out.println(fitnessClass.getClassInfo() + " - " + fitnessClass.getInstructor() + ", " + fitnessClass.getTime() + ", " + fitnessClass.getStudio());
-
-
-            System.out.println("[Attendees]");
-            for (Member member : fitnessClass.getMembers().getMembers()) {
-                if (member != null) {
-                    System.out.println("   " + member.toString());
+        for (FitnessClass fClass : schedule.getClasses()) {
+            if (fClass != null) {
+                System.out.println(fClass);
+                if (fClass.getMembers().getSize() > 0) {
+                    System.out.println("[Attendees]");
+                    for (Member m : fClass.getMembers().getMembers()) {
+                        if (m != null) {
+                            System.out.println("   " + m.toString());
+                        }
+                    }
                 }
-            }
-            for (Member guest : fitnessClass.getGuests().getMembers()) {
-                if (guest != null) {
-                    System.out.println("   " + guest.toString());
+
+                if (fClass.getGuests().getSize() > 0) {
+                    System.out.println("[Guests]");
+                    for (Member guest : fClass.getGuests().getMembers()) {
+                        if (guest != null) {
+                            System.out.println("   " + guest.toString());
+                        }
+                    }
                 }
             }
         }
         System.out.println("-end of class list.");
+
     }
 
     private void printMembershipFees() {
-        // Logic to print membership fees
-        //THis method is not tested yet
 
         System.out.println("-list of members with next dues-");
         for (Member member : memberList.getMembers()) {
@@ -379,30 +377,218 @@ public class StudioManager {
             return;
         }
 
-        FitnessClass fitnessClass = new FitnessClass(classType, instructor, studio);
-        if (!schedule.contains(fitnessClass)) {
+        //Member member1 = new Member(profile, memberList.getMember(profile).getExpire(), studio);
+        FitnessClass targetClass = schedule.findClass(classType, instructor, studio);
+
+
+        if (targetClass == null) {
             System.out.println(classTypeStr + " by " + instructorStr + " does not exist at " + studioStr);
             return;
         }
 
-        //CHECK THIS: figure out
-        //Time conflict – member is currently in a class held at the same time.
-        //Member is already added to the class schedule.
+        if (targetClass.getMembers().contains(member)) {
+            System.out.println(member.getProfile().getFname() + " " + member.getProfile().getLname() + " is already in the class.");
+            return;
+        }
 
-        //Then, add the member to the class
+        for (FitnessClass fClass : schedule.getClasses()) {
+            if (fClass != null && !fClass.equals(targetClass) && fClass.getTime().equals(targetClass.getTime()) && fClass.getMembers().contains(member)) {
+                System.out.println("Time conflict - " + profile.getFname() + " " + profile.getLname() +
+                        " is in another class held at " + fClass.getTime() + " - " +
+                        instructor + ", " + fClass.getTime() + ", " + studio.getName());
+                return;
+            }
+        }
+
+        targetClass.addMember(member);
+        if(member instanceof Basic) {
+            ((Basic) member).addClass();
+        }
+        System.out.println(member.getProfile().getFname() + " " + member.getProfile().getLname() + " attendance recorded " +
+                targetClass.getClassInfo() + " at " + targetClass.getStudio());
 
     }
 
     private void unregisterMemberFromClass(String[] tokens) {
         // Logic to unregister a member from a class
+
+        if (tokens.length != 7) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+
+        String classTypeStr = tokens[1];
+        String instructorStr = tokens[2];
+        String locationStr = tokens[3];
+        String fname = tokens[4];
+        String lname = tokens[5];
+        Date dobStr = new Date(tokens[6]);
+
+        Profile profile = new Profile(fname, lname, dobStr); // Modify to match your actual constructor
+        //Member member = new Member(profile, null, null); // Assuming a simplified Member constructor for matching
+
+        Member member = memberList.getMember(profile);
+
+        for (FitnessClass fClass : schedule.getClasses()) {
+            if (fClass != null && fClass.getClassInfo().equals(Offer.valueOf(classTypeStr.toUpperCase())) &&
+                    fClass.getInstructor().equals(Instructor.valueOf(instructorStr.toUpperCase())) &&
+                    fClass.getStudio().equals(Location.valueOf(locationStr.toUpperCase()))) {
+
+                boolean removed = fClass.removeMember(member);
+                if (removed) {
+                    System.out.println(profile.getFname() + " " + profile.getLname() + " is removed from " +
+                            fClass.getInstructor() + ", " + fClass.getTime() + ", " +
+                            fClass.getStudio());
+                    return;
+                }
+                else {
+                    System.out.println(profile.getFname() + " " + profile.getLname() + " is not in " +
+                            fClass.getInstructor() + ", " + fClass.getTime() + ", " + fClass.getStudio());
+                }
+            }
+        }
+
     }
 
     private void registerGuestForClass(String[] tokens) {
-        // Logic to register a guest for a class
+        if (tokens.length != 7) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+        String classTypeStr = tokens[1];
+        String instructorStr = tokens[2];
+        String locationStr = tokens[3];
+        String fname = tokens[4];
+        String lname = tokens[5];
+        Date dobStr = new Date(tokens[6]);
+
+        Profile profile = new Profile(fname, lname, dobStr);
+        //Member guest = new Member(profile, null, null);
+
+        //memberList.getMember(profile);
+
+        Offer classType;
+        Instructor instructor;
+        Location studio;
+        try {
+            classType = Offer.valueOf(classTypeStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(classTypeStr + " - class name does not exist.");
+            return;
+        }
+        try {
+            instructor = Instructor.valueOf(instructorStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(instructorStr + " - instructor does not exist.");
+            return;
+        }
+        try {
+            studio = Location.valueOf(locationStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(locationStr + " - invalid studio location.");
+            return;
+        }
+
+        if (!memberList.containsProf(profile)) {
+            System.out.println(fname + " " + lname + " " + dobStr + " is not in the member database.");
+            return;
+        }
+
+        Member member = memberList.getMember(profile);
+        if (member.getExpire().isExpired()) {
+            System.out.println(fname + " " + lname + " " + dobStr + " membership expired.");
+            return;
+        }
+
+        if (member instanceof Basic) {
+            System.out.println(fname + " " + lname + " [BASIC] - no guest pass.");
+            return;
+        }
+
+        if (!member.getHomeStudio().equals(studio)) {
+            System.out.println(fname + " " + lname + " (guest) is attending a class at " + studio.getName() + " - home studio at " + member.getHomeStudio().getName());
+            return;
+        }
+
+        if(member instanceof Premium && ((Premium) member).getGuestPass() <= 0) {
+            System.out.println(fname + " " + lname + " guest pass not available.");
+            return;
+        }
+        if(member instanceof Family && !((Family) member).isGuest()) {
+            System.out.println(fname + " " + lname + " guest pass not available.");
+            return;
+        }
+
+
+        for (FitnessClass fClass : schedule.getClasses()) {
+            if (fClass.getClassInfo().equals(Offer.valueOf(classTypeStr.toUpperCase())) &&
+                    fClass.getInstructor().equals(Instructor.valueOf(instructorStr.toUpperCase())) &&
+                    fClass.getStudio().equals(Location.valueOf(locationStr.toUpperCase()))) {
+                if (fClass.addGuest(member)) {
+                    if(member instanceof Premium) {
+                        ((Premium) member).useGuestPass();
+                    }
+                    if(member instanceof Family) {
+                        ((Family) member).setGuest(false);
+                    }
+                    System.out.println(fname + " " + lname + " (guest) attendance recorded " +
+                            classType + " at " +
+                            fClass.getStudio());
+                    return;
+                }
+            }
+        }
+        System.out.println("Could not register guest.");
     }
 
     private void unregisterGuestFromClass(String[] tokens) {
-        // Logic to unregister a guest from a class
+        if (tokens.length != 7) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
+
+        String classTypeStr = tokens[1];
+        String instructorStr = tokens[2];
+        String locationStr = tokens[3];
+        String fname = tokens[4];
+        String lname = tokens[5];
+        Date dobStr = new Date(tokens[6]);
+
+        Profile profile = new Profile(fname, lname, dobStr);
+        //Member guest = new Member(profile, null, null);
+
+
+        Member guest = memberList.getMember(profile);
+
+
+        Offer classType;
+        try {
+            classType = Offer.valueOf(classTypeStr.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(classTypeStr + " - class name does not exist.");
+            return;
+        }
+
+
+        for (FitnessClass fClass : schedule.getClasses()) {
+            if (fClass.getClassInfo().equals(Offer.valueOf(tokens[1].toUpperCase())) &&
+                    fClass.getInstructor().equals(Instructor.valueOf(tokens[2].toUpperCase())) &&
+                    fClass.getStudio().equals(Location.valueOf(tokens[3].toUpperCase()))) {
+                if (fClass.removeGuest(guest)) {
+                    if(guest instanceof Premium) {
+                        ((Premium) guest).addGuestPass();
+                    }
+                    if(guest instanceof Family) {
+                        ((Family) guest).setGuest(true);
+                    }
+                    System.out.println(guest.getProfile().getFname() + " " + guest.getProfile().getLname() + " (guest) is removed from " +
+                            fClass.getInstructor() + ", " + fClass.getTime() + ", " +
+                            fClass.getStudio());
+                    return;
+                }
+            }
+        }
+        //System.out.println("Could not remove guest.");
     }
 
 }

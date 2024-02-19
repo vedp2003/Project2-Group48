@@ -22,6 +22,13 @@ public enum Time {
         return minute;
     }
 
+    public boolean equalsTime(Time time) {
+        if(this.hour == time.hour && this.minute == time.minute){
+            return true;
+        }
+        return false;
+    }
+
 
     @Override
     public String toString() {

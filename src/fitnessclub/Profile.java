@@ -5,12 +5,6 @@ public class Profile implements Comparable<Profile> {
     private String lname;
     private Date dob;
 
-    public Profile() {
-        this.fname = null;
-        this.lname = null;
-        this.dob = null;
-    }
-
     public Profile(String fname, String lname, Date dob) {
         this.fname = fname;
         this.lname = lname;

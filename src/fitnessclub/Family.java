@@ -27,7 +27,7 @@ public class Family extends Member {
     @Override
     public String toString() {
 
-        String guestPassStatus = "";
+        String guestPassStatus = "0";
 
         if(isGuest()){
             guestPassStatus = "1";

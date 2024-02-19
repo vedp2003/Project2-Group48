@@ -4,6 +4,8 @@ public class Premium extends Member {
     private static final double MONTHLY_FEE = 59.99;
     private static final int MONTHS_IN_YEAR = 12;
     private static final int FREE_MONTHS = 1;
+    private static final int GUEST_PASSES = 3;
+
 
     private int guestPass;
 
@@ -17,8 +19,17 @@ public class Premium extends Member {
     }
 
     public void useGuestPass() {
-        guestPass --;
+        //if(guestPass > 0) {
+            guestPass--;
+        //}
     }
+
+    public void addGuestPass() {
+        //if(guestPass > 0 && guestPass < GUEST_PASSES) {
+            guestPass ++;
+        //}
+    }
+
     @Override
     public double bill() {
         return MONTHLY_FEE * (MONTHS_IN_YEAR - FREE_MONTHS);
@@ -35,7 +46,7 @@ public class Premium extends Member {
             result = ", (Premium) guest-pass remaining: " + guestPassStatus;
         }
         else{
-            result = " (Premium) Guest-pass remaining: " + guestPassStatus;
+            result = " (Premium) Guess-pass remaining: " + guestPassStatus;
         }
 
         return super.toString() + result;

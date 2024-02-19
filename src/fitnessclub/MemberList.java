@@ -34,6 +34,13 @@ public class MemberList {
         return NOT_FOUND;
     }
     private void grow() {
+        Member[] growMember = new Member[members.length + GROW_CAPACITY];
+        for (int i = 0; i < members.length; i++) {
+            growMember[i] = members[i];
+        }
+        members = growMember;
+
+        /*
         if (members[members.length - 1] != null) {
             Member[] growMember = new Member[members.length + GROW_CAPACITY];
             for (int i = 0; i < members.length; i++) {
@@ -42,10 +49,19 @@ public class MemberList {
             members = growMember;
         }
 
+         */
+
     }
 
     public boolean contains(Member member) {
-        return find(member) != NOT_FOUND;
+
+        //before it was return find(member) != NOT_FOUND
+        for (int i = 0; i < size; i++) {
+            if (members[i] != null && members[i].getProfile().equals(member.getProfile())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean containsProf(Profile profile) {
@@ -69,15 +85,23 @@ public class MemberList {
     }
 
     public boolean add(Member member) {
-        if (contains(member)) {
+        if (contains(member)) return false;
+        if (size == members.length) grow();
+        members[size++] = member;
+        return true;
+
+        /*
+        if (containsProf(member.getProfile())) { //had contains(member) before
             return false;
         }
-        if (size >= members.length) { //intially had this as ==
+        if (size == members.length) { // >= ??
             grow();
         }
         members[size] = member;
         size++;
         return true;
+
+         */
     }
 
     public boolean remove(Member member) {
@@ -85,12 +109,21 @@ public class MemberList {
         if (memberIndex == NOT_FOUND) {
             return false;
         }
+        for (int i = memberIndex; i < size - 1; i++) {
+            members[i] = members[i + 1];
+        }
+        members[size - 1] = null;
+        size--;
+        return true;
+        /*
         members[memberIndex] = null;
         for (int i = memberIndex; i < size - 1; i++) {
             members[i] = members[i + 1];
         }
         size--;
         return true;
+
+         */
     }
 
     public void load(File file) throws IOException {
@@ -114,15 +147,15 @@ public class MemberList {
             switch (type) {
                 case "B":
                     member = new Basic(new Profile(firstName, lastName, dob), expire, homeStudio, 0);
-                    this.add(member);
+                    add(member);
                     break;
                 case "F":
                     member = new Family(new Profile(firstName, lastName, dob), expire, homeStudio, true);
-                    this.add(member);
+                    add(member);
                     break;
                 case "P":
                     member = new Premium(new Profile(firstName, lastName, dob), expire, homeStudio, 3);
-                    this.add(member);
+                    add(member);
                     break;
                 default:
                     break;

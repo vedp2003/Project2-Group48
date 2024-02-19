@@ -8,58 +8,23 @@ public class FitnessClass {
     private MemberList members;
     private MemberList guests;
 
-    public FitnessClass(Offer classInfo, Instructor instructor, Location studio, Time time, MemberList members, MemberList guests) {
-        this.classInfo = classInfo;
-        this.instructor = instructor;
-        this.studio = studio;
-        this.time = time;
-        this.members = new MemberList();
-        this.guests = new MemberList();
-    }
     public FitnessClass(Offer classInfo, Instructor instructor, Location studio, Time time) {
         this.classInfo = classInfo;
         this.instructor = instructor;
         this.studio = studio;
         this.time = time;
-    }
-    public FitnessClass(Offer classInfo, Instructor instructor, Location studio) {
-        this.classInfo = classInfo;
-        this.instructor = instructor;
-        this.studio = studio;
+        members = new MemberList();
+        guests = new MemberList();
+
     }
 
-    public void setClassInfo(Offer classInfo) {
-        this.classInfo = classInfo;
-    }
-
-    public void setInstructor(Instructor instructor) {
-        this.instructor = instructor;
-    }
-
-    public void setStudio(Location studio) {
-        this.studio = studio;
-    }
-
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    public boolean addMember(Member member) {
-        return members.add(member);
-    }
-
-    public boolean removeMember(Member member) {
-        return members.remove(member);
-    }
-
-    public boolean addGuest(Member guest) {
-        return guests.add(guest);
-    }
-
-    public boolean removeGuest(Member guest) {
-
-        return guests.remove(guest);
-    }
+//    public FitnessClass(Offer classInfo, Instructor instructor, Location studio) {
+//        this.classInfo = classInfo;
+//        this.instructor = instructor;
+//        this.studio = studio;
+//        members = new MemberList();
+//        guests = new MemberList();
+//    }
 
     public Offer getClassInfo() {
         return classInfo;
@@ -85,6 +50,43 @@ public class FitnessClass {
         return guests;
     }
 
+    public boolean addMember(Member member) {
+        if (this.members.contains(member)) {
+            return false; // Member already exists in the class
+        }
+        this.members.add(member);
+        return true;
+    }
 
+    public boolean removeMember(Member member) {
+        return members.remove(member);
+    }
+
+    public boolean addGuest(Member guest) {
+        this.guests.add(guest);
+        return true;
+    }
+
+    public boolean removeGuest(Member guest) {
+        return guests.remove(guest);
+    }
+
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof FitnessClass)) return false;
+        FitnessClass other = (FitnessClass) obj;
+        return this.classInfo == other.classInfo &&
+                this.instructor == other.instructor &&
+                this.studio == other.studio &&
+                this.time == other.time;
+    }
+
+    @Override
+    public String toString() {
+        return classInfo + " - " + instructor + ", " + time + ", " + studio.getName();
+    }
 
 }
