@@ -31,7 +31,8 @@ public class Date implements Comparable<Date> {
     private int day;
 
     /**
-     * Default constructor/no-argument constructor
+     * Default constructor/no-argument constructor.
+     * Initializes the Date to the current date
      */
     public Date() {
 
@@ -113,51 +114,43 @@ public class Date implements Comparable<Date> {
 
     /**
      * Checks if the date is less than 18 years from today's date
+     *
      * @return true if the date was more than 18 years ago, false otherwise
      */
-    public boolean isLessThan18(Date dob){
-
+    public boolean isLessThan18(Date dob) {
 
         Calendar calendarInstance = Calendar.getInstance();
         int currentYear = calendarInstance.get(Calendar.YEAR);
-        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1; //since Calendar numbers months from 0 to 11
+        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
 
         if ((currentYear - dob.year) < 18) {
             return true;
-        }
-        else if ((currentYear - dob.year) == 18) {
+        } else if ((currentYear - dob.year) == 18) {
             return dob.month > currentMonth;
         }
         return false;
     }
 
+    /**
+     * Adds a certain number of months to a date
+     *
+     * @param months the number of months to add
+     * @return a new Date with the adjusted month
+     */
     public Date plusMonths(int months) {
         month += months;
-
-        //Calendar calendar = Calendar.getInstance();
-        //calendar.set(year, month - 1, day); // Calendar months are 0-based.
-        //calendar.add(Calendar.MONTH, months);
         return new Date(month + "/" + day + "/" + year);
     }
 
+    /**
+     * Adds a certain number of years to a date
+     *
+     * @param years the number of years to add
+     * @return a new Date with the adjusted year
+     */
     public Date plusYears(int years) {
-
         year += years;
-
-        //Calendar calendar = Calendar.getInstance();
-        //calendar.set(year, month - 1, day);
-        //calendar.add(Calendar.YEAR, years);
         return new Date(month + "/" + day + "/" + year);
-    }
-    public boolean isExpired() {
-        Calendar calendarInstance = Calendar.getInstance();
-        int currentYear = calendarInstance.get(Calendar.YEAR);
-        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
-        int currentDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
-
-        return (this.year < currentYear) || (this.year == currentYear && this.month < currentMonth) ||
-                (this.year == currentYear && this.month == currentMonth && this.day < currentDay);
-
     }
 
     /**
@@ -189,6 +182,12 @@ public class Date implements Comparable<Date> {
         return 0;
     }
 
+    /**
+     * Determines if two Date objects are equal based on day, month, and year
+     *
+     * @param obj the date object to be compared
+     * @return true if the two dates are the same; false otherwise
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Date) {
@@ -218,7 +217,7 @@ public class Date implements Comparable<Date> {
 
         Date one = new Date();
         String currentDate = one.toString();
-        System.out.println("C " +currentDate);
+        System.out.println("C " + currentDate);
 
         Date dateCheck1_1 = new Date("15/21/2015");
         System.out.println("Test Case 1_1 for whether " + dateCheck1_1

@@ -38,17 +38,36 @@ public class Profile implements Comparable<Profile> {
         return this.fname + ":" + this.lname + ":" + this.dob;
     }
 
-
     @Override
     public int compareTo(Profile o) {
-        int lastNameCompare = this.lname.compareToIgnoreCase(o.lname);
-        int firstNameCompare = this.fname.compareToIgnoreCase(o.fname);
-        if(lastNameCompare != 0) {
-            return lastNameCompare;
+        if (this.lname.compareToIgnoreCase(o.lname) > 0) {
+            return 1;
+        } else if (this.lname.compareToIgnoreCase(o.lname) < 0) {
+            return -1;
         }
-        if(firstNameCompare != 0) {
-            return firstNameCompare;
+
+        if (this.fname.compareTo(o.fname) > 1) {
+            return 1;
+        } else if (this.fname.compareTo(o.fname) < 0) {
+            return -1;
         }
-        return this.dob.compareTo(o.dob);
+
+        if (this.dob.compareTo(o.dob) == 1) {
+            return 1;
+        } else if (this.dob.compareTo(o.dob) == -1) {
+            return -1;
+        }
+        return 0;
+//        return 0;
+//
+//        int lastNameCompare = this.lname.compareToIgnoreCase(o.lname);
+//        int firstNameCompare = this.fname.compareToIgnoreCase(o.fname);
+//        if (lastNameCompare != 0) {
+//            return lastNameCompare;
+//        }
+//        if (firstNameCompare != 0) {
+//            return firstNameCompare;
+//        }
+//        return this.dob.compareTo(o.dob);
     }
 }

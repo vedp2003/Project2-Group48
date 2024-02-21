@@ -1,7 +1,5 @@
 package fitnessclub;
 
-import java.util.Calendar;
-
 public class Member implements Comparable<Member> {
     private Profile profile;
     private Date expire;
@@ -17,16 +15,11 @@ public class Member implements Comparable<Member> {
         return profile;
     }
 
-    public Date getExpire() {
-        return expire;
-    }
-
     public Location getHomeStudio() {
         return homeStudio;
     }
 
     public double bill() {
-        //complete as needed
         return 0.0;
 
     } //return the next due amount
@@ -39,18 +32,26 @@ public class Member implements Comparable<Member> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Member) {
+            Member member = (Member) obj;
+            return this.getProfile().equals(member.getProfile());
+        }
+        return false;
+    }
+
+    @Override
     public int compareTo(Member o) {
         return this.profile.compareTo(o.profile);
     }
 
     @Override
     public String toString() {
+        String membershipExpiry = "Membership expires ";
 
-        String memberStatus = "Membership expires";
         if (isExpired()) {
-            memberStatus = "Membership expired";
+            membershipExpiry = "Membership expired ";
         }
-
-        return this.profile + ", " + memberStatus + " " + this.expire + ", Home Studio: " + homeStudio;
+        return this.profile + ", " + membershipExpiry + this.expire + ", Home Studio: " + homeStudio;
     }
 }

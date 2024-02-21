@@ -27,9 +27,6 @@ public enum Location {
         return this.name();
     }
 
-    //Or u can do Location.EDISON.name(); i think --> without getName() method
-
-
     @Override
     public String toString() {
         return this.name() + ", " + this.zipCode + ", " + this.county;

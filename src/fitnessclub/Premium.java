@@ -1,11 +1,9 @@
 package fitnessclub;
 
 public class Premium extends Member {
-    private static final double MONTHLY_FEE = 59.99;
-    private static final int MONTHS_IN_YEAR = 12;
-    private static final int FREE_MONTHS = 1;
-    private static final int GUEST_PASSES = 3;
-
+    private static final double MONTH_FEE = 59.99;
+    private static final int TOTAL_MONTHS = 12;
+    private static final int FREE_MONTH = 1;
 
     private int guestPass;
 
@@ -19,36 +17,27 @@ public class Premium extends Member {
     }
 
     public void useGuestPass() {
-        //if(guestPass > 0) {
-            guestPass--;
-        //}
+        guestPass--;
     }
 
     public void addGuestPass() {
-        //if(guestPass > 0 && guestPass < GUEST_PASSES) {
-            guestPass ++;
-        //}
+        guestPass++;
     }
 
     @Override
     public double bill() {
-        return MONTHLY_FEE * (MONTHS_IN_YEAR - FREE_MONTHS);
+        return MONTH_FEE * (TOTAL_MONTHS - FREE_MONTH);
     }
 
     @Override
     public String toString() {
-
-        String result = "";
-        String guestPassStatus = "" + this.getGuestPass();
+        String result;
 
         if (isExpired()) {
-            guestPassStatus = "not eligible";
-            result = ", (Premium) guest-pass remaining: " + guestPassStatus;
+            result = ", (Premium) guest-pass remaining: not eligible";
+        } else {
+            result = " (Premium) Guess-pass remaining: " + this.getGuestPass();
         }
-        else{
-            result = " (Premium) Guess-pass remaining: " + guestPassStatus;
-        }
-
         return super.toString() + result;
     }
 }

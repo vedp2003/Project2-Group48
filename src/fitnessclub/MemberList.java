@@ -9,7 +9,7 @@ public class MemberList {
     private static final int GROW_CAPACITY = 4;
     private static final int NOT_FOUND = -1;
 
-    private Member [] members; //holds Basic, Family, or Premium objects
+    private Member[] members; //holds Basic, Family, or Premium objects
     private int size; //number of objects in the array
 
     public MemberList() {
@@ -33,38 +33,28 @@ public class MemberList {
         }
         return NOT_FOUND;
     }
+
     private void grow() {
         Member[] growMember = new Member[members.length + GROW_CAPACITY];
         for (int i = 0; i < members.length; i++) {
             growMember[i] = members[i];
         }
         members = growMember;
-
-        /*
-        if (members[members.length - 1] != null) {
-            Member[] growMember = new Member[members.length + GROW_CAPACITY];
-            for (int i = 0; i < members.length; i++) {
-                growMember[i] = members[i];
-            }
-            members = growMember;
-        }
-
-         */
-
     }
 
     public boolean contains(Member member) {
+        //return find(member) != NOT_FOUND;
 
-        //before it was return find(member) != NOT_FOUND
         for (int i = 0; i < size; i++) {
             if (members[i] != null && members[i].getProfile().equals(member.getProfile())) {
                 return true;
             }
         }
         return false;
+
     }
 
-    public boolean containsProf(Profile profile) {
+    public boolean containsProfile(Profile profile) {
         for (Member member : this.members) {
             if (member != null && member.getProfile().equals(profile)) {
                 return true;
@@ -73,8 +63,8 @@ public class MemberList {
         return false;
     }
 
-    public Member getMember(Profile profile) {
-        int memberIndex = -1;
+    public Member getMemberFromProfile(Profile profile) {
+        int memberIndex = NOT_FOUND;
         for (int i = 0; i < members.length; i++) {
             if (members[i] != null && members[i].getProfile().equals(profile)) {
                 memberIndex = i;
@@ -85,23 +75,15 @@ public class MemberList {
     }
 
     public boolean add(Member member) {
-        if (contains(member)) return false;
-        if (size == members.length) grow();
-        members[size++] = member;
-        return true;
-
-        /*
-        if (containsProf(member.getProfile())) { //had contains(member) before
+        if (contains(member)) {
             return false;
         }
-        if (size == members.length) { // >= ??
+        if (size == members.length) {
             grow();
         }
         members[size] = member;
         size++;
         return true;
-
-         */
     }
 
     public boolean remove(Member member) {
@@ -115,71 +97,43 @@ public class MemberList {
         members[size - 1] = null;
         size--;
         return true;
-        /*
-        members[memberIndex] = null;
-        for (int i = memberIndex; i < size - 1; i++) {
-            members[i] = members[i + 1];
-        }
-        size--;
-        return true;
 
-         */
     }
 
     public void load(File file) throws IOException {
-
         Scanner scanner = new Scanner(file);
-        int i = 0;
+        String inputStr;
         while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if(line.isEmpty()){
-                line = scanner.nextLine();
+            inputStr = scanner.nextLine();
+            if (inputStr.isEmpty()) {
+                inputStr = scanner.nextLine();
             }
-            String[] parts = line.split("\\s");
-            String type = parts[0];
-            String firstName = parts[1];
-            String lastName = parts[2];
-            Date dob = new Date(parts[3]);
-            Date expire = new Date(parts[4]);
-            Location homeStudio = Location.valueOf(parts[5].toUpperCase());
+            String[] strSplit = inputStr.split("\\s");
+
+            String memberType = strSplit[0];
+            String firstName = strSplit[1];
+            String lastName = strSplit[2];
+            Date dob = new Date(strSplit[3]);
+            Date expire = new Date(strSplit[4]);
+            Location homeStudio = Location.valueOf(strSplit[5].toUpperCase());
 
             Member member;
-            switch (type) {
-                case "B":
-                    member = new Basic(new Profile(firstName, lastName, dob), expire, homeStudio, 0);
-                    add(member);
-                    break;
-                case "F":
-                    member = new Family(new Profile(firstName, lastName, dob), expire, homeStudio, true);
-                    add(member);
-                    break;
-                case "P":
-                    member = new Premium(new Profile(firstName, lastName, dob), expire, homeStudio, 3);
-                    add(member);
-                    break;
-                default:
-                    break;
+            Profile memberProfile = new Profile(firstName, lastName, dob);
+            if (memberType.equals("B")) {
+                member = new Basic(memberProfile, expire, homeStudio, 0);
+                add(member);
+            }
+            if (memberType.equals("F")) {
+                member = new Family(memberProfile, expire, homeStudio, true);
+                add(member);
+            }
+            if (memberType.equals("P")) {
+                member = new Premium(memberProfile, expire, homeStudio, 3);
+                add(member);
             }
         }
         scanner.close();
-        System.out.println("-list of members loaded-");
-        printMembers();
-        System.out.println("-end of list-");
 
-    }//from the text file
-
-    public void printMembers() {
-        for (int i = 0; i < size; i++) {
-            System.out.println(members[i]);
-        }
-    }
-    public boolean sameProfile(Profile profile) {
-        for (int i = 0; i < size; i++) {
-            if(members[i].getProfile().equals(profile)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void printByCounty() {
@@ -187,45 +141,40 @@ public class MemberList {
             Member key = members[i];
             int j = i - 1;
 
-            while (j >= 0 && compareByCounty(members[j], key) > 0) {
+            while (j >= 0 && ((members[j].getHomeStudio().getCounty().compareTo(key.getHomeStudio().getCounty()) > 0)
+                        || (members[j].getHomeStudio().getCounty().compareTo(key.getHomeStudio().getCounty()) == 0
+                        && members[j].getHomeStudio().getZipCode().compareTo(key.getHomeStudio().getZipCode()) > 0))) {
+
                 members[j + 1] = members[j];
-                j--;
+                j -= 1;
             }
             members[j + 1] = key;
         }
 
-        //MAYBE NO SYSTEM.OUT ALLOWED - check
+        System.out.println("-list of members sorted by county and zip-");
         for (Member member : members) {
             if (member != null) {
                 System.out.println(member);
             }
         }
+        System.out.println("-end of list-");
+
     }//sort by county then zip code
-
-    private int compareByCounty(Member m1, Member m2) {
-        int countyComparison = m1.getHomeStudio().getCounty().compareTo(m2.getHomeStudio().getCounty());
-        if (countyComparison != 0) {
-            return countyComparison;
-        }
-        return m1.getHomeStudio().getZipCode().compareTo(m2.getHomeStudio().getZipCode());
-    }
-
 
     public void printByMember() {
         for (int i = 1; i < size; i++) {
             Member key = members[i];
             int j = i - 1;
 
-            while (j >= 0 && members[j].compareTo(key) > 0) {
+            while (j >= 0 && members[j].compareTo(key) == 1) {
                 members[j + 1] = members[j];
-                j--;
+                j -= 1;
             }
             members[j + 1] = key;
         }
 
         System.out.println("-list of members sorted by member profiles-");
 
-        //MAYBE NO SYSTEM.OUT ALLOWED - check
         for (Member member : members) {
             if (member != null) {
                 System.out.println(member);
@@ -238,10 +187,11 @@ public class MemberList {
     public void printFees() {
 
         System.out.println("-list of members with next dues-");
-
+        for (Member member : members) {
+            if (member != null) {
+                System.out.println(member + " [next due: $" + String.format("%.2f", member.bill()) + "]");
+            }
+        }
         System.out.println("-end of list-");
-
-
-
     } //print the array as is with the next due amounts
 }

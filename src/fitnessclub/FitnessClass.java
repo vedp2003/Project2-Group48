@@ -18,14 +18,6 @@ public class FitnessClass {
 
     }
 
-//    public FitnessClass(Offer classInfo, Instructor instructor, Location studio) {
-//        this.classInfo = classInfo;
-//        this.instructor = instructor;
-//        this.studio = studio;
-//        members = new MemberList();
-//        guests = new MemberList();
-//    }
-
     public Offer getClassInfo() {
         return classInfo;
     }
@@ -51,15 +43,11 @@ public class FitnessClass {
     }
 
     public boolean addMember(Member member) {
-        if (this.members.contains(member)) {
-            return false; // Member already exists in the class
-        }
-        this.members.add(member);
-        return true;
+        return this.members.add(member);
     }
 
     public boolean removeMember(Member member) {
-        return members.remove(member);
+        return this.members.remove(member);
     }
 
     public boolean addGuest(Member guest) {
@@ -68,20 +56,20 @@ public class FitnessClass {
     }
 
     public boolean removeGuest(Member guest) {
-        return guests.remove(guest);
+        this.guests.remove(guest);
+        return true;
     }
-
-
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof FitnessClass)) return false;
-        FitnessClass other = (FitnessClass) obj;
-        return this.classInfo == other.classInfo &&
-                this.instructor == other.instructor &&
-                this.studio == other.studio &&
-                this.time == other.time;
+        if (obj instanceof FitnessClass) {
+            FitnessClass fitnessClass = (FitnessClass) obj;
+            return this.classInfo == fitnessClass.classInfo &&
+                    this.instructor == fitnessClass.instructor &&
+                    this.studio == fitnessClass.studio &&
+                    this.time == fitnessClass.time;
+        }
+        return false;
     }
 
     @Override

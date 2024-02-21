@@ -1,9 +1,8 @@
 package fitnessclub;
 
 public class Family extends Member {
-
-    private static final double MONTHLY_FEE = 49.99;
-    private static final int BILLING_CYCLE_MONTHS = 3;
+    private static final double MONTH_FEE = 49.99;
+    private static final int BILL_MONTHS = 3;
     private boolean guest;
 
     public Family(Profile profile, Date expire, Location homeStudio, boolean guest) {
@@ -21,22 +20,21 @@ public class Family extends Member {
 
     @Override
     public double bill() {
-        return MONTHLY_FEE * BILLING_CYCLE_MONTHS;
+        return MONTH_FEE * BILL_MONTHS;
     }
 
     @Override
     public String toString() {
 
-        String guestPassStatus = "0";
+        String guestNumber = "0";
 
-        if(isGuest()){
-            guestPassStatus = "1";
+        if (isGuest()) {
+            guestNumber = "1";
         }
 
         if (isExpired()) {
-            guestPassStatus = "not eligible";
+            guestNumber = "not eligible";
         }
-
-        return super.toString() + ", (Family) guest-pass remaining: " + guestPassStatus;
+        return super.toString() + ", (Family) guest-pass remaining: " + guestNumber;
     }
 }
