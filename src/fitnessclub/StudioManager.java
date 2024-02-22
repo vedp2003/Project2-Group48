@@ -14,18 +14,6 @@ public class StudioManager {
         schedule = new Schedule();
     }
 
-    private void printMembers() {
-        for (int i = 0; i < memberList.getSize(); i++) {
-            System.out.println(memberList.getMembers()[i]);
-        }
-    }
-
-    private void printClasses() {
-        for (int i = 0; i < schedule.getNumClasses(); i++) {
-            System.out.println(schedule.getClasses()[i]);
-        }
-    }
-
     public void run() {
         try {
             memberList = new MemberList();
@@ -73,6 +61,18 @@ public class StudioManager {
         }
         scanner.close();
 
+    }
+
+    private void printMembers() {
+        for (int i = 0; i < memberList.getSize(); i++) {
+            System.out.println(memberList.getMembers()[i]);
+        }
+    }
+
+    private void printClasses() {
+        for (int i = 0; i < schedule.getNumClasses(); i++) {
+            System.out.println(schedule.getClasses()[i]);
+        }
     }
 
     private void processInputs(String input) {
@@ -308,7 +308,7 @@ public class StudioManager {
             return;
         }
         Offer classType = Offer.valueOf(classString.toUpperCase());
-        ;
+
         Instructor instructor = Instructor.valueOf(instructorString.toUpperCase());
         Location studio = Location.valueOf(studioString.toUpperCase());
         Profile profile = new Profile(firstName, lastName, dob);
@@ -462,10 +462,10 @@ public class StudioManager {
             System.out.println(firstName + " " + lastName + " guest pass not available.");
             return;
         }
-        guestAttendace(classType, instructor, studio, firstName, lastName, member);
+        guestAttendance(classType, instructor, studio, firstName, lastName, member);
     }
 
-    private boolean guestAttendace(Offer classType, Instructor instructor, Location studio, String firstName, String lastName, Member member) {
+    private boolean guestAttendance(Offer classType, Instructor instructor, Location studio, String firstName, String lastName, Member member) {
         for (FitnessClass fitnessClass : schedule.getClasses()) {
             if (fitnessClass.equals(schedule.findClass(classType, instructor, studio))) {
 
@@ -484,7 +484,6 @@ public class StudioManager {
         }
         return false;
     }
-
 
     private void unregisterGuestFromClass(String[] tokens) {
         if (tokens.length != 7) {
