@@ -151,13 +151,13 @@ public class MemberList {
             members[j + 1] = key;
         }
 
-        System.out.println("-list of members sorted by county and zip-");
+        System.out.println("-list of members sorted by county then zipcode-");
         for (Member member : members) {
             if (member != null) {
                 System.out.println(member);
             }
         }
-        System.out.println("-end of list-");
+        System.out.println("-end of list-\n");
 
     }//sort by county then zip code
 
@@ -173,25 +173,25 @@ public class MemberList {
             members[j + 1] = key;
         }
 
-        System.out.println("-list of members sorted by member profiles-");
+        System.out.println("\n-list of members sorted by member profiles-");
 
         for (Member member : members) {
             if (member != null) {
                 System.out.println(member);
             }
         }
-        System.out.println("-end of list-");
+        System.out.println("-end of list-\n");
 
     } //sort by member profile
 
     public void printFees() {
 
-        System.out.println("-list of members with next dues-");
+        System.out.println("\n-list of members with next dues-");
         for (Member member : members) {
             if (member != null) {
                 System.out.println(member + " [next due: $" + String.format("%.2f", member.bill()) + "]");
             }
         }
-        System.out.println("-end of list-");
+        System.out.println("-end of list-\n\n");
     } //print the array as is with the next due amounts
 }

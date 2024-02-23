@@ -20,19 +20,19 @@ public class StudioManager {
             memberList.load(new File("memberList.txt"));
             System.out.println("-list of members loaded-");
             printMembers();
-            System.out.println("-end of list-");
+            System.out.println("-end of list-\n\n");
 
             schedule = new Schedule();
             schedule.load(new File("classSchedule.txt"));
             System.out.println("-Fitness classes loaded-");
             printClasses();
-            System.out.println("-end of class list.");
+            System.out.println("-end of class list.\n");
 
         } catch (IOException e) {
             return;
         }
 
-        System.out.println("Studio Manager is up running...");
+        System.out.println("Studio Manager is up running...\n");
 
         Scanner scanner = new Scanner(System.in);
         String inputStr;
@@ -282,7 +282,7 @@ public class StudioManager {
                 }
             }
         }
-        System.out.println("-end of class list.");
+        System.out.println("-end of class list.\n");
     }
 
     private void registerForMemberClass(String[] tokens) {
