@@ -7,16 +7,15 @@ import static org.junit.Assert.*;
 public class MemberListTest {
 
     private MemberList memberList;
-    private Profile profile1, profile2, profile3, nonExistingProfile;
     private Member basicMember, familyMember, premiumMember, nonExistingMember;
 
     @Before
     public void setUp() {
         memberList = new MemberList();
-        profile1 = new Profile("Vivek", "Man", new Date("10/3/1994"));
-        profile2 = new Profile("Ved", "Pat", new Date("10/15/1979"));
-        profile3 = new Profile("Bob", "Dylan", new Date("2/30/1999"));
-        nonExistingProfile = new Profile("Bad", "User", new Date("1/1/2010"));
+        Profile profile1 = new Profile("Vivek", "Man", new Date("10/3/1994"));
+        Profile profile2 = new Profile("Ved", "Pat", new Date("10/15/1979"));
+        Profile profile3 = new Profile("Bob", "Dylan", new Date("2/30/1999"));
+        Profile nonExistingProfile = new Profile("Bad", "User", new Date("1/1/2010"));
 
         Date expireDateB = new Date().plusMonths(1);
         Date expireDateF = new Date().plusMonths(3);
