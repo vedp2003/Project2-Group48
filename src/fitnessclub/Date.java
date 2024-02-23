@@ -46,7 +46,7 @@ public class Date implements Comparable<Date> {
         this.day = currentDay;
 
     }
-
+    
     /**
      * Parameterized constructor requires 1 parameter to create a Date object
      *
@@ -58,7 +58,7 @@ public class Date implements Comparable<Date> {
         this.day = Integer.parseInt(stringTokenizer.nextToken("/"));
         this.year = Integer.parseInt(stringTokenizer.nextToken());
     }
-
+    
     /**
      * Helper method that checks if the given year is a leap year
      *
