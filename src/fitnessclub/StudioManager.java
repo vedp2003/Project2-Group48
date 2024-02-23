@@ -471,6 +471,7 @@ public class StudioManager {
             }
         }
         return false;
+
     }
 
     private void unregisterGuestFromClass(String[] tokens) {
