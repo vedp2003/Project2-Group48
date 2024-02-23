@@ -31,18 +31,6 @@ public class StudioManager {
         } catch (IOException e) {
             return;
         }
-//        catch (NoSuchElementException e) {
-//            return;
-//        }
-//        catch (NumberFormatException e) {
-//            return;
-//        }
-//        catch (FileNotFoundException e) {
-//            return;
-//        }
-//        catch (IllegalArgumentException e) {
-//            return;
-//        }
 
         System.out.println("Studio Manager is up running...");
 

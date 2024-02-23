@@ -58,16 +58,5 @@ public class Profile implements Comparable<Profile> {
             return -1;
         }
         return 0;
-//        return 0;
-//
-//        int lastNameCompare = this.lname.compareToIgnoreCase(o.lname);
-//        int firstNameCompare = this.fname.compareToIgnoreCase(o.fname);
-//        if (lastNameCompare != 0) {
-//            return lastNameCompare;
-//        }
-//        if (firstNameCompare != 0) {
-//            return firstNameCompare;
-//        }
-//        return this.dob.compareTo(o.dob);
     }
 }
