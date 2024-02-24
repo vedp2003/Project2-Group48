@@ -46,7 +46,7 @@ public class Date implements Comparable<Date> {
         this.day = currentDay;
 
     }
-    
+
     /**
      * Parameterized constructor requires 1 parameter to create a Date object
      *
@@ -58,7 +58,7 @@ public class Date implements Comparable<Date> {
         this.day = Integer.parseInt(stringTokenizer.nextToken("/"));
         this.year = Integer.parseInt(stringTokenizer.nextToken());
     }
-    
+
     /**
      * Helper method that checks if the given year is a leap year
      *
@@ -154,7 +154,7 @@ public class Date implements Comparable<Date> {
     }
 
     /**
-     * Compare two Date objects based on year, month, and day
+     * Compares two Date objects based on year, month, and day
      *
      * @param o the date object to be compared
      * @return a negative one, zero, or a positive one depending on if this date is
@@ -209,7 +209,8 @@ public class Date implements Comparable<Date> {
 
     /**
      * Testbed main() for Date class, which tests the isValid() method.
-     * Tests five invalid and two valid test cases
+     * Tests five invalid and two valid test cases.
+     * This is tested with Junit testing as well
      *
      * @param args the command line arguments
      */

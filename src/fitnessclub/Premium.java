@@ -5,6 +5,7 @@ package fitnessclub;
  * This is a subclass of Member and includes specific functionality,
  * such as billing and tracking the number of guest passes.
  *
+ * @author Ved Patel, Vivek Manthri
  */
 public class Premium extends Member {
     private static final double MONTH_FEE = 59.99;
@@ -63,6 +64,7 @@ public class Premium extends Member {
 
     /**
      * Returns a string representation of a Premium member object
+     * Shows dynamic binding (polymorphism)
      *
      * @return a string representation of the Premium member
      */

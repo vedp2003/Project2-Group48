@@ -5,6 +5,7 @@ package fitnessclub;
  * This is a subclass of Member and includes specific functionality,
  * such as billing and tracking the number of classes attended.
  *
+ * @author Ved Patel, Vivek Manthri
  */
 public class Basic extends Member {
     private static final double MONTH_FEE = 39.99;
@@ -16,10 +17,10 @@ public class Basic extends Member {
     /**
      * Parameterized constructor requires 4 parameters to create a Basic member object
      *
-     * @param profile     the profile of the member
-     * @param expire      the expiration date of the membership
-     * @param homeStudio  the home studio of the member
-     * @param numClasses  the number of classes attended
+     * @param profile    the profile of the member
+     * @param expire     the expiration date of the membership
+     * @param homeStudio the home studio of the member
+     * @param numClasses the number of classes attended
      */
     public Basic(Profile profile, Date expire, Location homeStudio, int numClasses) {
         super(profile, expire, homeStudio);
@@ -37,7 +38,6 @@ public class Basic extends Member {
 
     /**
      * Increments the number of classes attended by the member.
-     *
      */
     public void addClass() {
         numClasses++;
@@ -58,7 +58,8 @@ public class Basic extends Member {
     }
 
     /**
-     * Returns a string representation of a Basic member object
+     * Returns a string representation of a Basic member object.
+     * Shows dynamic binding (polymorphism)
      *
      * @return a string representation of the Basic member
      */

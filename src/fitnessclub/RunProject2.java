@@ -1,14 +1,14 @@
 package fitnessclub;
 
 /**
- * A driver class to run CollectionManager for Project2
+ * A driver class to run StudioManager for Project2
  *
  * @author Ved Patel, Vivek Manthri
  */
 public class RunProject2 {
 
     /**
-     * Takes arguments from the command line and runs the Collection Manager
+     * Takes arguments from the command line and runs the StudioManager
      *
      * @param args the command line arguments
      */

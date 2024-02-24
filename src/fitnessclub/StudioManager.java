@@ -296,7 +296,6 @@ public class StudioManager {
             return;
         }
         Offer classType = Offer.valueOf(classString.toUpperCase());
-
         Instructor instructor = Instructor.valueOf(instructorString.toUpperCase());
         Location studio = Location.valueOf(studioString.toUpperCase());
         Profile profile = new Profile(firstName, lastName, dob);
@@ -457,17 +456,16 @@ public class StudioManager {
         for (FitnessClass fitnessClass : schedule.getClasses()) {
             if (fitnessClass.equals(schedule.findClass(classType, instructor, studio))) {
 
-                if (fitnessClass.addGuest(member)) {
-                    if (member instanceof Premium) {
-                        ((Premium) member).useGuestPass();
-                    }
-                    if (member instanceof Family) {
-                        ((Family) member).setGuest(false);
-                    }
-                    System.out.println(firstName + " " + lastName + " (guest) attendance recorded " +
-                            classType + " at " + fitnessClass.getStudio());
-                    return true;
+                fitnessClass.addGuest(member);
+                if (member instanceof Premium) {
+                    ((Premium) member).useGuestPass();
                 }
+                if (member instanceof Family) {
+                    ((Family) member).setGuest(false);
+                }
+                System.out.println(firstName + " " + lastName + " (guest) attendance recorded " +
+                        classType + " at " + fitnessClass.getStudio());
+                return true;
             }
         }
         return false;
@@ -496,18 +494,17 @@ public class StudioManager {
         }
         for (FitnessClass fitnessClass : schedule.getClasses()) {
             if (fitnessClass.equals(schedule.findClass(classType, instructor, studio))) {
-                if (fitnessClass.removeGuest(unregisterGuest)) {
-                    if (unregisterGuest instanceof Premium) {
-                        ((Premium) unregisterGuest).addGuestPass();
-                    }
-                    if (unregisterGuest instanceof Family) {
-                        ((Family) unregisterGuest).setGuest(true);
-                    }
-                    System.out.println(unregisterGuest.getProfile().getFname() + " " +
-                            unregisterGuest.getProfile().getLname() + " (guest) is removed from " +
-                            fitnessClass.getInstructor() + ", " + fitnessClass.getTime() + ", " + fitnessClass.getStudio());
-                    return;
+                fitnessClass.removeGuest(unregisterGuest);
+                if (unregisterGuest instanceof Premium) {
+                    ((Premium) unregisterGuest).addGuestPass();
                 }
+                if (unregisterGuest instanceof Family) {
+                    ((Family) unregisterGuest).setGuest(true);
+                }
+                System.out.println(unregisterGuest.getProfile().getFname() + " " +
+                        unregisterGuest.getProfile().getLname() + " (guest) is removed from " +
+                        fitnessClass.getInstructor() + ", " + fitnessClass.getTime() + ", " + fitnessClass.getStudio());
+                return;
             }
         }
     }

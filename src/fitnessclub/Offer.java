@@ -1,7 +1,7 @@
 package fitnessclub;
 
 /**
- * This enum class lists the different fitness classes offered
+ * Enum class representing the types of fitness class offers available at the fitness club.
  *
  * @author Ved Patel, Vivek Manthri
  */

@@ -4,6 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ *
+ *
+ * @author Ved Patel, Vivek Manthri
+ */
 public class MemberList {
     private static final int INITIAL_CAPACITY = 4;
     private static final int GROW_CAPACITY = 4;

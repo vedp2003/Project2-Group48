@@ -1,7 +1,7 @@
 package fitnessclub;
 
 /**
- * This enum class lists the different instructors
+ * Enum class representing the different instructors at the fitness club.
  *
  * @author Ved Patel, Vivek Manthri
  */
