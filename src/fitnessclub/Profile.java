@@ -12,9 +12,10 @@ public class Profile implements Comparable<Profile> {
 
     /**
      * Parameterized constructor requires 3 parameters to create a Profile
+     *
      * @param fname the first name
      * @param lname the last name
-     * @param dob the date of birth
+     * @param dob   the date of birth
      */
     public Profile(String fname, String lname, Date dob) {
         this.fname = fname;
@@ -24,6 +25,7 @@ public class Profile implements Comparable<Profile> {
 
     /**
      * Getter method returns the first name from the profile
+     *
      * @return the first name
      */
     public String getFname() {
@@ -32,6 +34,7 @@ public class Profile implements Comparable<Profile> {
 
     /**
      * Getter method returns the last name from the profile
+     *
      * @return the last name
      */
     public String getLname() {

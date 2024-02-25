@@ -10,6 +10,7 @@ package fitnessclub;
 public class Family extends Member {
     private static final double MONTH_FEE = 49.99;
     private static final int BILL_MONTHS = 3;
+
     private boolean guest;
 
     /**

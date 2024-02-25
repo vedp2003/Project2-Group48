@@ -26,6 +26,7 @@ public class Schedule {
 
     /**
      * Getter method returns the all the scheduled fitness classes.
+     *
      * @return an array of all the scheduled fitness classes.
      */
     public FitnessClass[] getClasses() {
@@ -34,6 +35,7 @@ public class Schedule {
 
     /**
      * Getter method returns the number of scheduled fitness classes.
+     *
      * @return the total number of scheduled fitness classes.
      */
     public int getNumClasses() {
@@ -42,9 +44,10 @@ public class Schedule {
 
     /**
      * Finds a fitness class from the list based on fitness class details.
-     * @param classInfo The type of class.
+     *
+     * @param classInfo  The type of class.
      * @param instructor The instructor of the class.
-     * @param studio The studio location of the class.
+     * @param studio     The studio location of the class.
      * @return The FitnessClass if found; null otherwise.
      */
     public FitnessClass findClass(Offer classInfo, Instructor instructor, Location studio) {
@@ -59,6 +62,7 @@ public class Schedule {
 
     /**
      * Loads the schedule of fitness classes from a text file.
+     *
      * @param file The text file from which to load the classes.
      * @throws IOException When an I/O error occurs when trying to access/read the file.
      */
