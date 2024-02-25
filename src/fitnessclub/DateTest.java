@@ -4,6 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Junit testing for the Date class isValid() method.
+ * Contains 5 invalid cases and 2 valid cases.
+ *
+ * @author Ved Patel, Vivek Manthri
+ */
 public class DateTest {
 
     @Test

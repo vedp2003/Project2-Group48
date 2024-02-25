@@ -4,6 +4,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Junit testing for the MemberList class add() and remove() methods.
+ * Contains 3 true cases and 3 false cases for adding Basic, Family and Premium.
+ * Contains 1 true case and 1 false case for removing a random member.
+ *
+ * @author Ved Patel, Vivek Manthri
+ */
 public class MemberListTest {
 
     @Test
