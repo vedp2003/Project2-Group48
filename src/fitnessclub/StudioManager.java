@@ -10,6 +10,7 @@ import java.util.Scanner;
  * @author Ved Patel, Vivek Manthri
  */
 public class StudioManager {
+    public static final int CMD_NAME_INDEX = 0;
 
     private MemberList memberList;
     private Schedule schedule;
@@ -69,37 +70,38 @@ public class StudioManager {
      */
     private void processInputs(String input) {
         String[] strSplit = input.split("\\s");
-        if(strSplit.length != 5 && (strSplit[0].equals("AB") ||
-                strSplit[0].equals("AF") || strSplit[0].equals("AP"))) {
+        String commandName = strSplit[CMD_NAME_INDEX];
+        if(strSplit.length != 5 && (commandName.equals("AB") ||
+                commandName.equals("AF") || commandName.equals("AP"))) {
             System.out.println("Missing data tokens.");
             return;
         }
-        if (strSplit[0].equals("AB")) {
+        if (commandName.equals("AB")) {
             addBasicMember(strSplit);
-        } else if (strSplit[0].equals("AF")) {
+        } else if (commandName.equals("AF")) {
             addFamilyMember(strSplit);
-        } else if (strSplit[0].equals("AP")) {
+        } else if (commandName.equals("AP")) {
             addPremiumMember(strSplit);
-        } else if (strSplit[0].equals("C")) {
+        } else if (commandName.equals("C")) {
             cancelMembership(strSplit);
-        } else if (strSplit[0].equals("S")) {
+        } else if (commandName.equals("S")) {
             displayClassSchedule();
-        } else if (strSplit[0].equals("PM")) {
+        } else if (commandName.equals("PM")) {
             memberList.printByMember();
-        } else if (strSplit[0].equals("PC")) {
+        } else if (commandName.equals("PC")) {
             memberList.printByCounty();
-        } else if (strSplit[0].equals("PF")) {
+        } else if (commandName.equals("PF")) {
             memberList.printFees();
-        } else if (strSplit[0].equals("R")) {
+        } else if (commandName.equals("R")) {
             memberClassAttendance(strSplit);
-        } else if (strSplit[0].equals("U")) {
+        } else if (commandName.equals("U")) {
             removeMemberFromClass(strSplit);
-        } else if (strSplit[0].equals("RG")) {
+        } else if (commandName.equals("RG")) {
             guestClassAttendance(strSplit);
-        } else if (strSplit[0].equals("UG")) {
+        } else if (commandName.equals("UG")) {
             removeGuestFromClass(strSplit);
         } else {
-            System.out.println(strSplit[0] + " is an invalid command!");
+            System.out.println(commandName + " is an invalid command!");
         }
     }
 
