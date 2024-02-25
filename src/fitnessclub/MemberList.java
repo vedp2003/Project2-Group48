@@ -207,7 +207,7 @@ public class MemberList {
     }
 
     /**
-     * Displays all the members in the list sorted by county and then zip code
+     * Displays all the members in the list sorted by county and then zip code.
      * Uses insertion sort logic to order the members
      */
     public void printByCounty() {
@@ -236,7 +236,7 @@ public class MemberList {
     }
 
     /**
-     * Displays all the members in the list sorted by their profiles
+     * Displays all the members in the list sorted by their profiles.
      * Uses insertion sort logic to order the members
      */
     public void printByMember() {
@@ -263,7 +263,7 @@ public class MemberList {
     }
 
     /**
-     * Displays all the members with their next bill due amounts
+     * Displays all the members with their next bill due amounts.
      */
     public void printFees() {
 

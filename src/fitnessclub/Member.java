@@ -86,7 +86,7 @@ public class Member implements Comparable<Member> {
      * Compares two Member objects based on their profile
      *
      * @param o the Member object to be compared
-     * @return a negative number, zero, or a positive number depending on if this member is
+     * @return a negative one, zero, or a positive one depending on if this member is
      * less than, equal to, or greater than the specified member
      */
     @Override

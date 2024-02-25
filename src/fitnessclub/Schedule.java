@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * An instance of this class holds schedule and list of fitness classes loaded from the text file
+ * An instance of this class holds schedule and list of fitness classes
+ * loaded from the text file.
  *
  * @author Ved Patel, Vivek Manthri
  */

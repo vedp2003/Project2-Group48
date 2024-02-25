@@ -65,6 +65,7 @@ public class Basic extends Member {
      */
     @Override
     public String toString() {
-        return super.toString() + ", (Basic) number of classes attended: " + this.getNumClasses();
+        return super.toString()
+                + ", (Basic) number of classes attended: " + this.getNumClasses();
     }
 }

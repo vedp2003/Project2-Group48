@@ -31,13 +31,13 @@ public class DateTest {
     }
 
     @Test
-    public void testDaysInFeb_Nonleap() {
+    public void testInvalidDaysInFeb_Nonleap() {
         Date dateCheck4 = new Date("2/29/2005");
         assertFalse(dateCheck4.isValid());
     }
 
     @Test
-    public void testDaysInFeb_Leap() {
+    public void testInvalidDaysInFeb_Leap() {
         Date dateCheck5 = new Date("2/30/2000");
         assertFalse(dateCheck5.isValid());
     }

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class MemberListTest {
 
     @Test
-    public void addBasicMemberTrue() {
+    public void addValidBasicMember() {
         MemberList memberList = new MemberList();
         Profile profileB = new Profile("Vivek", "Man", new Date("10/3/1994"));
         Date expireDateB = new Date().plusMonths(1);
@@ -16,7 +16,7 @@ public class MemberListTest {
     }
 
     @Test
-    public void addFamilyMemberTrue() {
+    public void addValidFamilyMember() {
         MemberList memberList = new MemberList();
         Profile profileF = new Profile("Ved", "Pat", new Date("10/15/1979"));
         Date expireDateF = new Date().plusMonths(3);
@@ -25,7 +25,7 @@ public class MemberListTest {
     }
 
     @Test
-    public void addPremiumMemberTrue() {
+    public void addValidPremiumMember() {
         MemberList memberList = new MemberList();
         Profile profileP = new Profile("Bob", "Dylan", new Date("2/30/1999"));
         Date expireDateP = new Date().plusYears(1);
@@ -34,7 +34,7 @@ public class MemberListTest {
     }
 
     @Test
-    public void addBasicMemberFalse() {
+    public void addInvalidDuplicateBasicMember() {
         MemberList memberList = new MemberList();
         Profile profileB = new Profile("Vivek", "Man", new Date("10/3/1994"));
         Date expireDateB = new Date().plusMonths(1);
@@ -44,7 +44,7 @@ public class MemberListTest {
     }
 
     @Test
-    public void addFamilyMemberFalse() {
+    public void addInvalidDuplicateFamilyMember() {
         MemberList memberList = new MemberList();
         Profile profileF = new Profile("Ved", "Pat", new Date("10/15/1979"));
         Date expireDateF = new Date().plusMonths(3);
@@ -54,7 +54,7 @@ public class MemberListTest {
     }
 
     @Test
-    public void addPremiumMemberFalse() {
+    public void addInvalidDuplicatePremiumMember() {
         MemberList memberList = new MemberList();
         Profile profileP = new Profile("Bob", "Dylan", new Date("2/30/1999"));
         Date expireDateP = new Date().plusYears(1);
@@ -64,7 +64,7 @@ public class MemberListTest {
     }
 
     @Test
-    public void removeMemberTrue() {
+    public void removeValidMember() {
         MemberList memberList = new MemberList();
         Profile profileP = new Profile("Shaun", "Yeet", new Date("1/13/2001"));
         Date expireDateP = new Date().plusYears(1);
@@ -74,11 +74,11 @@ public class MemberListTest {
     }
 
     @Test
-    public void removeMemberFalse() {
+    public void removeInvalidNon_ExistingMember() {
         MemberList memberList = new MemberList();
         Profile profileP = new Profile("Shaun", "Yeet", new Date("1/13/2001"));
         Date expireDateP = new Date().plusYears(1);
-        Member premiumMember = new Premium(profileP, expireDateP, Location.SOMERVILLE, 3);
+        Member premiumMember = new Premium(profileP, expireDateP, Location.BRIDGEWATER, 3);
         assertFalse(memberList.remove(premiumMember));
     }
 }

@@ -61,7 +61,7 @@ public class Premium extends Member {
     }
 
     /**
-     * Returns a string representation of a Premium member object
+     * Returns a string representation of a Premium member object.
      * Shows dynamic binding (polymorphism)
      *
      * @return a string representation of the Premium member

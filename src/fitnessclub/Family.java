@@ -55,7 +55,7 @@ public class Family extends Member {
     }
 
     /**
-     * Returns a string representation of a Family member object
+     * Returns a string representation of a Family member object.
      * Shows dynamic binding (polymorphism)
      *
      * @return a string representation of the Family member

@@ -64,7 +64,6 @@ public class StudioManager {
         }
 
         System.out.println("Studio Manager is up running...\n");
-
         Scanner scanner = new Scanner(System.in);
         String inputStr;
         while (true) {
@@ -89,7 +88,7 @@ public class StudioManager {
     private void processInputs(String input) {
         String[] strSplit = input.split("\\s");
         String commandName = strSplit[CMD_NAME_INDEX];
-        if(strSplit.length != ADD_MEMBERSHIP_INPUT_MAX && (commandName.equals("AB") ||
+        if (strSplit.length != ADD_MEMBERSHIP_INPUT_MAX && (commandName.equals("AB") ||
                 commandName.equals("AF") || commandName.equals("AP"))) {
             System.out.println("Missing data tokens.");
             return;
@@ -384,7 +383,8 @@ public class StudioManager {
             return;
         }
         if (targetClass.getMembers().contains(member)) {
-            System.out.println(member.getProfile().getFname() + " " + member.getProfile().getLname() + " is already in the class.");
+            System.out.println(member.getProfile().getFname() + " "
+                    + member.getProfile().getLname() + " is already in the class.");
             return;
         }
         if (timeConflictChecker(targetClass, profile, instructor, studio, member)) {
@@ -394,8 +394,8 @@ public class StudioManager {
         if (member instanceof Basic) {
             ((Basic) member).addClass();
         }
-        System.out.println(member.getProfile().getFname() + " " + member.getProfile().getLname() + " attendance recorded " +
-                targetClass.getClassInfo() + " at " + targetClass.getStudio());
+        System.out.println(member.getProfile().getFname() + " " + member.getProfile().getLname()
+                + " attendance recorded " + targetClass.getClassInfo() + " at " + targetClass.getStudio());
     }
 
     /**
@@ -461,11 +461,14 @@ public class StudioManager {
      * @param instructor  the instructor of the class
      * @param studio      the studio location of the class
      * @param member      the member whose time conflicts are checked
-     * @return true if the member is currently in a class held at the same time; false if no time conflicts
+     * @return true if the member is currently in a class held at the same time;
+     * false if no time conflicts
      */
-    private boolean timeConflictChecker(FitnessClass targetClass, Profile profile, Instructor instructor, Location studio, Member member) {
+    private boolean timeConflictChecker(FitnessClass targetClass, Profile profile,
+                                        Instructor instructor, Location studio, Member member) {
         for (FitnessClass fitnessClass : schedule.getClasses()) {
-            if (fitnessClass != null && !fitnessClass.equals(targetClass) && fitnessClass.getTime().equals(targetClass.getTime())
+            if (fitnessClass != null && !fitnessClass.equals(targetClass)
+                    && fitnessClass.getTime().equals(targetClass.getTime())
                     && fitnessClass.getMembers().contains(member)) {
 
                 System.out.println("Time conflict - " + profile.getFname() + " " + profile.getLname() +
@@ -537,7 +540,8 @@ public class StudioManager {
         String firstName = parts[MEMBER_GUEST_FIRST_NAME_INDEX];
         String lastName = parts[MEMBER_GUEST_LAST_NAME_INDEX];
         Date dob = new Date(parts[MEMBER_GUEST_DOB_INDEX]);
-        if (!addToClassInputChecker(parts, classString, instructorString, studioString, firstName, lastName, dob)) {
+        if (!addToClassInputChecker(parts, classString, instructorString,
+                studioString, firstName, lastName, dob)) {
             return;
         }
         Offer classType = Offer.valueOf(classString.toUpperCase());
@@ -575,7 +579,8 @@ public class StudioManager {
      * @param lastName   the last name of the guest
      * @param member     the guest who is to be added to the class
      */
-    private void guestAddToClass(Offer classType, Instructor instructor, Location studio, String firstName, String lastName, Member member) {
+    private void guestAddToClass(Offer classType, Instructor instructor, Location studio,
+                                 String firstName, String lastName, Member member) {
         for (FitnessClass fitnessClass : schedule.getClasses()) {
             if (fitnessClass.equals(schedule.findClass(classType, instructor, studio))) {
 
@@ -631,7 +636,8 @@ public class StudioManager {
                 }
                 System.out.println(unregisterGuest.getProfile().getFname() + " " +
                         unregisterGuest.getProfile().getLname() + " (guest) is removed from " +
-                        fitnessClass.getInstructor() + ", " + fitnessClass.getTime() + ", " + fitnessClass.getStudio());
+                        fitnessClass.getInstructor() + ", " + fitnessClass.getTime() + ", " +
+                        fitnessClass.getStudio());
                 return;
             }
         }
