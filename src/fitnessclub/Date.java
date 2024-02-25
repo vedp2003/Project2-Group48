@@ -25,6 +25,7 @@ public class Date implements Comparable<Date> {
     public static final int JUN = 6;
     public static final int SEP = 9;
     public static final int NOV = 11;
+    public static final int VALID_AGE = 18;
 
     private int year;
     private int month;
@@ -38,7 +39,7 @@ public class Date implements Comparable<Date> {
 
         Calendar calendarInstance = Calendar.getInstance();
         int currentYear = calendarInstance.get(Calendar.YEAR);
-        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1; //since Calendar numbers months from 0 to 11
+        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
         int currentDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
 
         this.year = currentYear;
@@ -103,7 +104,7 @@ public class Date implements Comparable<Date> {
     public boolean isTodayOrFutureDate() {
         Calendar calendarInstance = Calendar.getInstance();
         int currentYear = calendarInstance.get(Calendar.YEAR);
-        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1; //since Calendar numbers months from 0 to 11
+        int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
         int currentDay = calendarInstance.get(Calendar.DAY_OF_MONTH);
 
         return (this.year > currentYear) || (this.year == currentYear && this.month > currentMonth) ||
@@ -123,9 +124,9 @@ public class Date implements Comparable<Date> {
         int currentYear = calendarInstance.get(Calendar.YEAR);
         int currentMonth = calendarInstance.get(Calendar.MONTH) + 1;
 
-        if ((currentYear - dob.year) < 18) {
+        if ((currentYear - dob.year) < VALID_AGE) {
             return true;
-        } else if ((currentYear - dob.year) == 18) {
+        } else if ((currentYear - dob.year) == VALID_AGE) {
             return dob.month > currentMonth;
         }
         return false;

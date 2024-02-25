@@ -11,6 +11,24 @@ import java.util.Scanner;
  */
 public class StudioManager {
     public static final int CMD_NAME_INDEX = 0;
+    public static final int ADD_MEMBERSHIP_INPUT_MAX = 5;
+    public static final int CANCEL_MEMBERSHIP_INPUT_MAX = 4;
+    public static final int ADD_REMOVE_CLASS_INPUT_MAX = 7;
+    public static final int ADD_CANCEL_MEMBERSHIP_FIRST_NAME_INDEX = 1;
+    public static final int ADD_CANCEL_MEMBERSHIP_LAST_NAME_INDEX = 2;
+    public static final int ADD_CANCEL_MEMBERSHIP_DOB_INDEX = 3;
+    public static final int ADD_MEMBERSHIP_STUDIO_INDEX = 4;
+    public static final int BASIC_EXPIRY_MONTH_LIMIT_INDEX = 1;
+    public static final int BASIC_INITIAL_CLASSES = 0;
+    public static final int FAMILY_EXPIRY_MONTH_LIMIT_INDEX = 3;
+    public static final int PREMIUM_EXPIRY_YEAR_LIMIT_INDEX = 1;
+    public static final int PREMIUM_GUEST_PASS_LIMIT = 3;
+    public static final int MEMBER_GUEST_CLASS_TYPE_INDEX = 1;
+    public static final int MEMBER_GUEST_CLASS_INSTRUCTOR_INDEX = 2;
+    public static final int MEMBER_GUEST_CLASS_STUDIO_INDEX = 3;
+    public static final int MEMBER_GUEST_FIRST_NAME_INDEX = 4;
+    public static final int MEMBER_GUEST_LAST_NAME_INDEX = 5;
+    public static final int MEMBER_GUEST_DOB_INDEX = 6;
 
     private MemberList memberList;
     private Schedule schedule;
@@ -71,7 +89,7 @@ public class StudioManager {
     private void processInputs(String input) {
         String[] strSplit = input.split("\\s");
         String commandName = strSplit[CMD_NAME_INDEX];
-        if(strSplit.length != 5 && (commandName.equals("AB") ||
+        if(strSplit.length != ADD_MEMBERSHIP_INPUT_MAX && (commandName.equals("AB") ||
                 commandName.equals("AF") || commandName.equals("AP"))) {
             System.out.println("Missing data tokens.");
             return;
@@ -131,16 +149,16 @@ public class StudioManager {
      *              from the command line argument
      */
     private void addBasicMember(String[] parts) {
-        String firstName = parts[1];
-        String lastName = parts[2];
+        String firstName = parts[ADD_CANCEL_MEMBERSHIP_FIRST_NAME_INDEX];
+        String lastName = parts[ADD_CANCEL_MEMBERSHIP_LAST_NAME_INDEX];
         Date dob;
         try {
-            dob = new Date(parts[3]);
+            dob = new Date(parts[ADD_CANCEL_MEMBERSHIP_DOB_INDEX]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
         }
-        String studioLocationString = parts[4];
+        String studioLocationString = parts[ADD_MEMBERSHIP_STUDIO_INDEX];
         if (!dob.isValid()) {
             System.out.println("DOB " + dob + ": invalid calendar date!");
             return;
@@ -165,8 +183,8 @@ public class StudioManager {
             System.out.println(firstName + " " + lastName + " is already in the member database.");
             return;
         }
-        Date expireDate = new Date().plusMonths(1);
-        Member newMember = new Basic(newProfile, expireDate, studioLocation, 0);
+        Date expireDate = new Date().plusMonths(BASIC_EXPIRY_MONTH_LIMIT_INDEX);
+        Member newMember = new Basic(newProfile, expireDate, studioLocation, BASIC_INITIAL_CLASSES);
         memberList.add(newMember);
         System.out.println(firstName + " " + lastName + " added.");
     }
@@ -179,16 +197,16 @@ public class StudioManager {
      *              from the command line argument
      */
     private void addFamilyMember(String[] parts) {
-        String firstName = parts[1];
-        String lastName = parts[2];
+        String firstName = parts[ADD_CANCEL_MEMBERSHIP_FIRST_NAME_INDEX];
+        String lastName = parts[ADD_CANCEL_MEMBERSHIP_LAST_NAME_INDEX];
         Date dob;
         try {
-            dob = new Date(parts[3]);
+            dob = new Date(parts[ADD_CANCEL_MEMBERSHIP_DOB_INDEX]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
         }
-        String studioLocationString = parts[4];
+        String studioLocationString = parts[ADD_MEMBERSHIP_STUDIO_INDEX];
         if (!dob.isValid()) {
             System.out.println("DOB " + dob + ": invalid calendar date!");
             return;
@@ -213,7 +231,7 @@ public class StudioManager {
             System.out.println(firstName + " " + lastName + " is already in the member database.");
             return;
         }
-        Date expireDate = new Date().plusMonths(3);
+        Date expireDate = new Date().plusMonths(FAMILY_EXPIRY_MONTH_LIMIT_INDEX);
         Member newMember = new Family(newProfile, expireDate, studioLocation, true);
         memberList.add(newMember);
         System.out.println(firstName + " " + lastName + " added.");
@@ -227,16 +245,16 @@ public class StudioManager {
      *              from the command line argument
      */
     private void addPremiumMember(String[] parts) {
-        String firstName = parts[1];
-        String lastName = parts[2];
+        String firstName = parts[ADD_CANCEL_MEMBERSHIP_FIRST_NAME_INDEX];
+        String lastName = parts[ADD_CANCEL_MEMBERSHIP_LAST_NAME_INDEX];
         Date dob;
         try {
-            dob = new Date(parts[3]);
+            dob = new Date(parts[ADD_CANCEL_MEMBERSHIP_DOB_INDEX]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
         }
-        String studioLocationString = parts[4];
+        String studioLocationString = parts[ADD_MEMBERSHIP_STUDIO_INDEX];
         if (!dob.isValid()) {
             System.out.println("DOB " + dob + ": invalid calendar date!");
             return;
@@ -261,8 +279,8 @@ public class StudioManager {
             System.out.println(firstName + " " + lastName + " is already in the member database.");
             return;
         }
-        Date expireDate = new Date().plusYears(1);
-        Member newMember = new Premium(newProfile, expireDate, studioLocation, 3);
+        Date expireDate = new Date().plusYears(PREMIUM_EXPIRY_YEAR_LIMIT_INDEX);
+        Member newMember = new Premium(newProfile, expireDate, studioLocation, PREMIUM_GUEST_PASS_LIMIT);
         memberList.add(newMember);
         System.out.println(firstName + " " + lastName + " added.");
     }
@@ -275,15 +293,15 @@ public class StudioManager {
      *              from the command line argument
      */
     private void cancelMembership(String[] parts) {
-        if (parts.length != 4) {
+        if (parts.length != CANCEL_MEMBERSHIP_INPUT_MAX) {
             System.out.println("Missing data tokens.");
             return;
         }
-        String firstName = parts[1];
-        String lastName = parts[2];
+        String firstName = parts[ADD_CANCEL_MEMBERSHIP_FIRST_NAME_INDEX];
+        String lastName = parts[ADD_CANCEL_MEMBERSHIP_LAST_NAME_INDEX];
         Date dob;
         try {
-            dob = new Date(parts[3]);
+            dob = new Date(parts[ADD_CANCEL_MEMBERSHIP_DOB_INDEX]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
@@ -341,12 +359,12 @@ public class StudioManager {
      *              from the command line argument
      */
     private void memberClassAttendance(String[] parts) {
-        String classString = parts[1];
-        String instructorString = parts[2];
-        String studioString = parts[3];
-        String firstName = parts[4];
-        String lastName = parts[5];
-        Date dob = new Date(parts[6]);
+        String classString = parts[MEMBER_GUEST_CLASS_TYPE_INDEX];
+        String instructorString = parts[MEMBER_GUEST_CLASS_INSTRUCTOR_INDEX];
+        String studioString = parts[MEMBER_GUEST_CLASS_STUDIO_INDEX];
+        String firstName = parts[MEMBER_GUEST_FIRST_NAME_INDEX];
+        String lastName = parts[MEMBER_GUEST_LAST_NAME_INDEX];
+        Date dob = new Date(parts[MEMBER_GUEST_DOB_INDEX]);
         if (!addToClassInputChecker(parts, classString, instructorString, studioString, firstName, lastName, dob)) {
             return;
         }
@@ -396,7 +414,7 @@ public class StudioManager {
     private boolean addToClassInputChecker(String[] parts, String classString,
                                            String instructorString, String studioString,
                                            String firstName, String lastName, Date dob) {
-        if (parts.length != 7) {
+        if (parts.length != ADD_REMOVE_CLASS_INPUT_MAX) {
             System.out.println("Missing data tokens.");
             return false;
         }
@@ -467,23 +485,27 @@ public class StudioManager {
      *              from the command line argument
      */
     private void removeMemberFromClass(String[] parts) {
-        if (parts.length != 7) {
+        if (parts.length != ADD_REMOVE_CLASS_INPUT_MAX) {
             System.out.println("Missing data tokens.");
             return;
         }
-        String classString = parts[1];
-        String instructorString = parts[2];
-        String studioString = parts[3];
-        String firstName = parts[4];
-        String lastName = parts[5];
-        Date dob = new Date(parts[6]);
+        String classString = parts[MEMBER_GUEST_CLASS_TYPE_INDEX];
+        Instructor instructor = Instructor.valueOf(parts[MEMBER_GUEST_CLASS_INSTRUCTOR_INDEX].toUpperCase());
+        Location studio = Location.valueOf(parts[MEMBER_GUEST_CLASS_STUDIO_INDEX].toUpperCase());
+        String firstName = parts[MEMBER_GUEST_FIRST_NAME_INDEX];
+        String lastName = parts[MEMBER_GUEST_LAST_NAME_INDEX];
+        Date dob = new Date(parts[MEMBER_GUEST_DOB_INDEX]);
         Profile unregisterProfile = new Profile(firstName, lastName, dob);
         Member unregisterMember = memberList.getMemberFromProfile(unregisterProfile);
+        Offer classType;
+        try {
+            classType = Offer.valueOf(classString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println(classString + " - class name does not exist.");
+            return;
+        }
         for (FitnessClass fitnessClass : schedule.getClasses()) {
-            if (fitnessClass.equals(schedule.findClass(Offer.valueOf(classString.toUpperCase()),
-                    Instructor.valueOf(instructorString.toUpperCase()),
-                    Location.valueOf(studioString.toUpperCase())))) {
-
+            if (fitnessClass.equals(schedule.findClass(classType, instructor, studio))) {
                 boolean removed = fitnessClass.removeMember(unregisterMember);
                 if (removed) {
                     System.out.println(unregisterProfile.getFname() + " " +
@@ -509,12 +531,12 @@ public class StudioManager {
      *              from the command line argument
      */
     private void guestClassAttendance(String[] parts) {
-        String classString = parts[1];
-        String instructorString = parts[2];
-        String studioString = parts[3];
-        String firstName = parts[4];
-        String lastName = parts[5];
-        Date dob = new Date(parts[6]);
+        String classString = parts[MEMBER_GUEST_CLASS_TYPE_INDEX];
+        String instructorString = parts[MEMBER_GUEST_CLASS_INSTRUCTOR_INDEX];
+        String studioString = parts[MEMBER_GUEST_CLASS_STUDIO_INDEX];
+        String firstName = parts[MEMBER_GUEST_FIRST_NAME_INDEX];
+        String lastName = parts[MEMBER_GUEST_LAST_NAME_INDEX];
+        Date dob = new Date(parts[MEMBER_GUEST_DOB_INDEX]);
         if (!addToClassInputChecker(parts, classString, instructorString, studioString, firstName, lastName, dob)) {
             return;
         }
@@ -579,16 +601,16 @@ public class StudioManager {
      *              from the command line argument
      */
     private void removeGuestFromClass(String[] parts) {
-        if (parts.length != 7) {
+        if (parts.length != ADD_REMOVE_CLASS_INPUT_MAX) {
             System.out.println("Missing data tokens.");
             return;
         }
-        String classString = parts[1];
-        Instructor instructor = Instructor.valueOf(parts[2].toUpperCase());
-        Location studio = Location.valueOf(parts[3].toUpperCase());
-        String firstName = parts[4];
-        String lastName = parts[5];
-        Date dob = new Date(parts[6]);
+        String classString = parts[MEMBER_GUEST_CLASS_TYPE_INDEX];
+        Instructor instructor = Instructor.valueOf(parts[MEMBER_GUEST_CLASS_INSTRUCTOR_INDEX].toUpperCase());
+        Location studio = Location.valueOf(parts[MEMBER_GUEST_CLASS_STUDIO_INDEX].toUpperCase());
+        String firstName = parts[MEMBER_GUEST_FIRST_NAME_INDEX];
+        String lastName = parts[MEMBER_GUEST_LAST_NAME_INDEX];
+        Date dob = new Date(parts[MEMBER_GUEST_DOB_INDEX]);
         Profile profile = new Profile(firstName, lastName, dob);
         Member unregisterGuest = memberList.getMemberFromProfile(profile);
         Offer classType;

@@ -11,6 +11,10 @@ import java.util.Scanner;
  */
 public class Schedule {
     private static final int TOTAL_CLASSES = 15;
+    private static final int CLASS_TYPE_INDEX = 0;
+    private static final int INSTRUCTOR_INDEX = 1;
+    private static final int TIME_INDEX = 2;
+    private static final int LOCATION_INDEX = 3;
 
     private FitnessClass[] classes;
     private int numClasses;
@@ -74,10 +78,10 @@ public class Schedule {
                 continue;
             }
             String[] parts = line.split("\\s");
-            Offer classType = Offer.valueOf(parts[0].toUpperCase().trim());
-            Instructor instructor = Instructor.valueOf(parts[1].toUpperCase());
-            Time time = Time.valueOf(parts[2].toUpperCase());
-            Location location = Location.valueOf(parts[3].toUpperCase());
+            Offer classType = Offer.valueOf(parts[CLASS_TYPE_INDEX].toUpperCase());
+            Instructor instructor = Instructor.valueOf(parts[INSTRUCTOR_INDEX].toUpperCase());
+            Time time = Time.valueOf(parts[TIME_INDEX].toUpperCase());
+            Location location = Location.valueOf(parts[LOCATION_INDEX].toUpperCase());
 
             classes[numClasses] = new FitnessClass(classType, instructor, location, time);
             numClasses++;

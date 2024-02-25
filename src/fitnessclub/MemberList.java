@@ -14,6 +14,14 @@ public class MemberList {
     private static final int INITIAL_CAPACITY = 4;
     private static final int GROW_CAPACITY = 4;
     private static final int NOT_FOUND = -1;
+    private static final int MEMBER_TYPE_INDEX = 0;
+    private static final int FIRST_NAME_INDEX = 1;
+    private static final int LAST_NAME_INDEX = 2;
+    private static final int DOB_INDEX = 3;
+    private static final int EXPIRE_INDEX = 4;
+    private static final int HOME_STUDIO_INDEX = 5;
+    public static final int BASIC_INITIAL_CLASSES = 0;
+    public static final int PREMIUM_GUEST_PASS_LIMIT = 3;
 
     private Member[] members; //holds Basic, Family, or Premium objects
     private int size; //number of objects in the array
@@ -173,17 +181,17 @@ public class MemberList {
             }
             String[] strSplit = inputStr.split("\\s");
 
-            String memberType = strSplit[0];
-            String firstName = strSplit[1];
-            String lastName = strSplit[2];
-            Date dob = new Date(strSplit[3]);
-            Date expire = new Date(strSplit[4]);
-            Location homeStudio = Location.valueOf(strSplit[5].toUpperCase());
+            String memberType = strSplit[MEMBER_TYPE_INDEX];
+            String firstName = strSplit[FIRST_NAME_INDEX];
+            String lastName = strSplit[LAST_NAME_INDEX];
+            Date dob = new Date(strSplit[DOB_INDEX]);
+            Date expire = new Date(strSplit[EXPIRE_INDEX]);
+            Location homeStudio = Location.valueOf(strSplit[HOME_STUDIO_INDEX].toUpperCase());
 
             Member member;
             Profile memberProfile = new Profile(firstName, lastName, dob);
             if (memberType.equals("B")) {
-                member = new Basic(memberProfile, expire, homeStudio, 0);
+                member = new Basic(memberProfile, expire, homeStudio, BASIC_INITIAL_CLASSES);
                 add(member);
             }
             if (memberType.equals("F")) {
@@ -191,7 +199,7 @@ public class MemberList {
                 add(member);
             }
             if (memberType.equals("P")) {
-                member = new Premium(memberProfile, expire, homeStudio, 3);
+                member = new Premium(memberProfile, expire, homeStudio, PREMIUM_GUEST_PASS_LIMIT);
                 add(member);
             }
         }

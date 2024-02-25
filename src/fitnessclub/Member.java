@@ -7,6 +7,7 @@ package fitnessclub;
  * @author Ved Patel, Vivek Manthri
  */
 public class Member implements Comparable<Member> {
+
     private Profile profile;
     private Date expire;
     private Location homeStudio;
