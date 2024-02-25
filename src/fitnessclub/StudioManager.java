@@ -60,7 +60,6 @@ public class StudioManager {
             processInputs(inputStr);
         }
         scanner.close();
-
     }
 
     /**
@@ -70,23 +69,16 @@ public class StudioManager {
      */
     private void processInputs(String input) {
         String[] strSplit = input.split("\\s");
+        if(strSplit.length != 5 && (strSplit[0].equals("AB") ||
+                strSplit[0].equals("AF") || strSplit[0].equals("AP"))) {
+            System.out.println("Missing data tokens.");
+            return;
+        }
         if (strSplit[0].equals("AB")) {
-            if (strSplit.length != 5) {
-                System.out.println("Missing data tokens.");
-                return;
-            }
             addBasicMember(strSplit);
         } else if (strSplit[0].equals("AF")) {
-            if (strSplit.length != 5) {
-                System.out.println("Missing data tokens.");
-                return;
-            }
             addFamilyMember(strSplit);
         } else if (strSplit[0].equals("AP")) {
-            if (strSplit.length != 5) {
-                System.out.println("Missing data tokens.");
-                return;
-            }
             addPremiumMember(strSplit);
         } else if (strSplit[0].equals("C")) {
             cancelMembership(strSplit);
@@ -361,7 +353,6 @@ public class StudioManager {
         Location studio = Location.valueOf(studioString.toUpperCase());
         Profile profile = new Profile(firstName, lastName, dob);
         Member member = memberList.getMemberFromProfile(profile);
-
         if (member instanceof Basic && !member.getHomeStudio().equals(studio)) {
             System.out.println(firstName + " " + lastName + " is attending a class at " + studio.getName()
                     + " - [BASIC] home studio at " + member.getHomeStudio().getName());
@@ -526,7 +517,6 @@ public class StudioManager {
             return;
         }
         Offer classType = Offer.valueOf(classString.toUpperCase());
-        ;
         Instructor instructor = Instructor.valueOf(instructorString.toUpperCase());
         Location studio = Location.valueOf(studioString.toUpperCase());
         Profile profile = new Profile(firstName, lastName, dob);
