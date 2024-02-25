@@ -61,7 +61,7 @@ public class Schedule {
     }
 
     /**
-     * Loads the schedule of fitness classes from a text file.
+     * Loads the schedule of fitness classes from a text file into the array of classes.
      *
      * @param file The text file from which to load the classes.
      * @throws IOException When an I/O error occurs when trying to access/read the file.

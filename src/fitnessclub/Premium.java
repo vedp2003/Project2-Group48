@@ -17,10 +17,10 @@ public class Premium extends Member {
     /**
      * Parameterized constructor requires 4 parameters to create a Premium member object
      *
-     * @param profile     the profile of the family member
-     * @param expire      the expiration date of the membership
-     * @param homeStudio  the home studio of the family member
-     * @param guestPass   the number of guests passes
+     * @param profile    the profile of the family member
+     * @param expire     the expiration date of the membership
+     * @param homeStudio the home studio of the family member
+     * @param guestPass  the number of guests passes
      */
     public Premium(Profile profile, Date expire, Location homeStudio, int guestPass) {
         super(profile, expire, homeStudio);
@@ -38,7 +38,6 @@ public class Premium extends Member {
 
     /**
      * Decrements the number of guest passes available
-     *
      */
     public void useGuestPass() {
         guestPass--;
@@ -46,7 +45,6 @@ public class Premium extends Member {
 
     /**
      * Increments the number of guest passes available
-     *
      */
     public void addGuestPass() {
         guestPass++;

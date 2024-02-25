@@ -4,16 +4,28 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * This is the user interface class that processes the input and output of data
+ *
+ * @author Ved Patel, Vivek Manthri
+ */
 public class StudioManager {
 
     private MemberList memberList;
     private Schedule schedule;
 
+    /**
+     * Default constructor/no-argument constructor
+     */
     public StudioManager() {
         memberList = new MemberList();
         schedule = new Schedule();
     }
 
+    /**
+     * Loads the text files, runs the Studio Manager, takes in input commands,
+     * and calls the appropriate processing method
+     */
     public void run() {
         try {
             memberList = new MemberList();
@@ -51,18 +63,11 @@ public class StudioManager {
 
     }
 
-    private void printMembers() {
-        for (int i = 0; i < memberList.getSize(); i++) {
-            System.out.println(memberList.getMembers()[i]);
-        }
-    }
-
-    private void printClasses() {
-        for (int i = 0; i < schedule.getNumClasses(); i++) {
-            System.out.println(schedule.getClasses()[i]);
-        }
-    }
-
+    /**
+     * Helper method to process the input command and delegate to the respective methods
+     *
+     * @param input the string representing the command terminal input
+     */
     private void processInputs(String input) {
         String[] strSplit = input.split("\\s");
         if (strSplit[0].equals("AB")) {
@@ -94,29 +99,54 @@ public class StudioManager {
         } else if (strSplit[0].equals("PF")) {
             memberList.printFees();
         } else if (strSplit[0].equals("R")) {
-            registerForMemberClass(strSplit);
+            memberClassAttendance(strSplit);
         } else if (strSplit[0].equals("U")) {
-            unregisterMemberFromClass(strSplit);
+            removeMemberFromClass(strSplit);
         } else if (strSplit[0].equals("RG")) {
-            registerGuestForClass(strSplit);
+            guestClassAttendance(strSplit);
         } else if (strSplit[0].equals("UG")) {
-            unregisterGuestFromClass(strSplit);
+            removeGuestFromClass(strSplit);
         } else {
             System.out.println(strSplit[0] + " is an invalid command!");
         }
     }
 
-    private void addBasicMember(String[] tokens) {
-        String firstName = tokens[1];
-        String lastName = tokens[2];
+    /**
+     * Helper method to print the members from the list of members
+     */
+    private void printMembers() {
+        for (int i = 0; i < memberList.getSize(); i++) {
+            System.out.println(memberList.getMembers()[i]);
+        }
+    }
+
+    /**
+     * Helper method to print the classes from the schedule's list of fitness classes
+     */
+    private void printClasses() {
+        for (int i = 0; i < schedule.getNumClasses(); i++) {
+            System.out.println(schedule.getClasses()[i]);
+        }
+    }
+
+    /**
+     * Adds a member with Basic membership to the list of members based on the provided input tokens.
+     * Ensures all necessary condition checks before adding a member to the list of members
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void addBasicMember(String[] parts) {
+        String firstName = parts[1];
+        String lastName = parts[2];
         Date dob;
         try {
-            dob = new Date(tokens[3]);
+            dob = new Date(parts[3]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
         }
-        String studioLocationString = tokens[4];
+        String studioLocationString = parts[4];
         if (!dob.isValid()) {
             System.out.println("DOB " + dob + ": invalid calendar date!");
             return;
@@ -147,17 +177,24 @@ public class StudioManager {
         System.out.println(firstName + " " + lastName + " added.");
     }
 
-    private void addFamilyMember(String[] tokens) {
-        String firstName = tokens[1];
-        String lastName = tokens[2];
+    /**
+     * Adds a member with Family membership to the list of members based on the provided input tokens.
+     * Ensures all necessary condition checks before adding a member to the list of members
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void addFamilyMember(String[] parts) {
+        String firstName = parts[1];
+        String lastName = parts[2];
         Date dob;
         try {
-            dob = new Date(tokens[3]);
+            dob = new Date(parts[3]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
         }
-        String studioLocationString = tokens[4];
+        String studioLocationString = parts[4];
         if (!dob.isValid()) {
             System.out.println("DOB " + dob + ": invalid calendar date!");
             return;
@@ -188,17 +225,24 @@ public class StudioManager {
         System.out.println(firstName + " " + lastName + " added.");
     }
 
-    private void addPremiumMember(String[] tokens) {
-        String firstName = tokens[1];
-        String lastName = tokens[2];
+    /**
+     * Adds a member with Premium membership to the list of members based on the provided input tokens.
+     * Ensures all necessary condition checks before adding a member to the list of members
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void addPremiumMember(String[] parts) {
+        String firstName = parts[1];
+        String lastName = parts[2];
         Date dob;
         try {
-            dob = new Date(tokens[3]);
+            dob = new Date(parts[3]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
         }
-        String studioLocationString = tokens[4];
+        String studioLocationString = parts[4];
         if (!dob.isValid()) {
             System.out.println("DOB " + dob + ": invalid calendar date!");
             return;
@@ -229,16 +273,23 @@ public class StudioManager {
         System.out.println(firstName + " " + lastName + " added.");
     }
 
-    private void cancelMembership(String[] tokens) {
-        if (tokens.length != 4) {
+    /**
+     * Cancels the membership and removes the member from the member database.
+     * Ensures necessary condition checks before removing a member from the list of members
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void cancelMembership(String[] parts) {
+        if (parts.length != 4) {
             System.out.println("Missing data tokens.");
             return;
         }
-        String firstName = tokens[1];
-        String lastName = tokens[2];
+        String firstName = parts[1];
+        String lastName = parts[2];
         Date dob;
         try {
-            dob = new Date(tokens[3]);
+            dob = new Date(parts[3]);
         } catch (NumberFormatException e) {
             System.out.println("The date contains characters.");
             return;
@@ -259,6 +310,9 @@ public class StudioManager {
         }
     }
 
+    /**
+     * Displays the class schedule with current attendees
+     */
     private void displayClassSchedule() {
         System.out.println("-Fitness classes-");
         for (FitnessClass fitnessClass : schedule.getClasses()) {
@@ -285,14 +339,21 @@ public class StudioManager {
         System.out.println("-end of class list.\n");
     }
 
-    private void registerForMemberClass(String[] tokens) {
-        String classString = tokens[1];
-        String instructorString = tokens[2];
-        String studioString = tokens[3];
-        String firstName = tokens[4];
-        String lastName = tokens[5];
-        Date dob = new Date(tokens[6]);
-        if (!registerInputChecker(tokens, classString, instructorString, studioString, firstName, lastName, dob)) {
+    /**
+     * Takes attendance of a member attending a class and adds the member to the class.
+     * Ensures all necessary condition checks before adding a member to a class
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void memberClassAttendance(String[] parts) {
+        String classString = parts[1];
+        String instructorString = parts[2];
+        String studioString = parts[3];
+        String firstName = parts[4];
+        String lastName = parts[5];
+        Date dob = new Date(parts[6]);
+        if (!addToClassInputChecker(parts, classString, instructorString, studioString, firstName, lastName, dob)) {
             return;
         }
         Offer classType = Offer.valueOf(classString.toUpperCase());
@@ -326,10 +387,23 @@ public class StudioManager {
                 targetClass.getClassInfo() + " at " + targetClass.getStudio());
     }
 
-    private boolean registerInputChecker(String[] tokens, String classString,
-                                         String instructorString, String studioString,
-                                         String firstName, String lastName, Date dob) {
-        if (tokens.length != 7) {
+    /**
+     * Helper method to check for necessary condition checks for successful addition of a member to a class
+     *
+     * @param parts            an array of strings, where each element represents a specific piece of information
+     *                         from the command line argument
+     * @param classString      the class type string
+     * @param instructorString the class instructor string
+     * @param studioString     the class studio location string
+     * @param firstName        first name of the member
+     * @param lastName         last name of the member
+     * @param dob              date of birth of the member
+     * @return true if the input for adding a member to a class is valid; false otherwise
+     */
+    private boolean addToClassInputChecker(String[] parts, String classString,
+                                           String instructorString, String studioString,
+                                           String firstName, String lastName, Date dob) {
+        if (parts.length != 7) {
             System.out.println("Missing data tokens.");
             return false;
         }
@@ -367,6 +441,17 @@ public class StudioManager {
         return true;
     }
 
+    /**
+     * Helper method to check for time conflicts based on classes
+     * a member may be in at the same time
+     *
+     * @param targetClass the target FitnessClass in which the member may be in
+     * @param profile     the profile of the member
+     * @param instructor  the instructor of the class
+     * @param studio      the studio location of the class
+     * @param member      the member whose time conflicts are checked
+     * @return true if the member is currently in a class held at the same time; false if no time conflicts
+     */
     private boolean timeConflictChecker(FitnessClass targetClass, Profile profile, Instructor instructor, Location studio, Member member) {
         for (FitnessClass fitnessClass : schedule.getClasses()) {
             if (fitnessClass != null && !fitnessClass.equals(targetClass) && fitnessClass.getTime().equals(targetClass.getTime())
@@ -381,17 +466,24 @@ public class StudioManager {
         return false;
     }
 
-    private void unregisterMemberFromClass(String[] tokens) {
-        if (tokens.length != 7) {
+    /**
+     * Removes a member from a class.
+     * Ensures all necessary condition checks before removing a member from a class
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void removeMemberFromClass(String[] parts) {
+        if (parts.length != 7) {
             System.out.println("Missing data tokens.");
             return;
         }
-        String classString = tokens[1];
-        String instructorString = tokens[2];
-        String studioString = tokens[3];
-        String firstName = tokens[4];
-        String lastName = tokens[5];
-        Date dob = new Date(tokens[6]);
+        String classString = parts[1];
+        String instructorString = parts[2];
+        String studioString = parts[3];
+        String firstName = parts[4];
+        String lastName = parts[5];
+        Date dob = new Date(parts[6]);
         Profile unregisterProfile = new Profile(firstName, lastName, dob);
         Member unregisterMember = memberList.getMemberFromProfile(unregisterProfile);
         for (FitnessClass fitnessClass : schedule.getClasses()) {
@@ -416,14 +508,21 @@ public class StudioManager {
         }
     }
 
-    private void registerGuestForClass(String[] tokens) {
-        String classString = tokens[1];
-        String instructorString = tokens[2];
-        String studioString = tokens[3];
-        String firstName = tokens[4];
-        String lastName = tokens[5];
-        Date dob = new Date(tokens[6]);
-        if (!registerInputChecker(tokens, classString, instructorString, studioString, firstName, lastName, dob)) {
+    /**
+     * Takes attendance of a guest attending a class and adds the guest to the class.
+     * Ensures all necessary condition checks before adding a guest to a class
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void guestClassAttendance(String[] parts) {
+        String classString = parts[1];
+        String instructorString = parts[2];
+        String studioString = parts[3];
+        String firstName = parts[4];
+        String lastName = parts[5];
+        Date dob = new Date(parts[6]);
+        if (!addToClassInputChecker(parts, classString, instructorString, studioString, firstName, lastName, dob)) {
             return;
         }
         Offer classType = Offer.valueOf(classString.toUpperCase());
@@ -449,10 +548,20 @@ public class StudioManager {
             System.out.println(firstName + " " + lastName + " guest pass not available.");
             return;
         }
-        guestAttendance(classType, instructor, studio, firstName, lastName, member);
+        guestAddToClass(classType, instructor, studio, firstName, lastName, member);
     }
 
-    private boolean guestAttendance(Offer classType, Instructor instructor, Location studio, String firstName, String lastName, Member member) {
+    /**
+     * Helper method to add a guest to a fitness class
+     *
+     * @param classType  the type of the class
+     * @param instructor the instructor of the class
+     * @param studio     the studio location of the class
+     * @param firstName  the first name of the guest
+     * @param lastName   the last name of the guest
+     * @param member     the guest who is to be added to the class
+     */
+    private void guestAddToClass(Offer classType, Instructor instructor, Location studio, String firstName, String lastName, Member member) {
         for (FitnessClass fitnessClass : schedule.getClasses()) {
             if (fitnessClass.equals(schedule.findClass(classType, instructor, studio))) {
 
@@ -465,24 +574,29 @@ public class StudioManager {
                 }
                 System.out.println(firstName + " " + lastName + " (guest) attendance recorded " +
                         classType + " at " + fitnessClass.getStudio());
-                return true;
+                return;
             }
         }
-        return false;
-
     }
 
-    private void unregisterGuestFromClass(String[] tokens) {
-        if (tokens.length != 7) {
+    /**
+     * Removes the guest from a class.
+     * Ensures all necessary condition checks before removing a guest from a class
+     *
+     * @param parts an array of strings, where each element represents a specific piece of information
+     *              from the command line argument
+     */
+    private void removeGuestFromClass(String[] parts) {
+        if (parts.length != 7) {
             System.out.println("Missing data tokens.");
             return;
         }
-        String classString = tokens[1];
-        Instructor instructor = Instructor.valueOf(tokens[2].toUpperCase());
-        Location studio = Location.valueOf(tokens[3].toUpperCase());
-        String firstName = tokens[4];
-        String lastName = tokens[5];
-        Date dob = new Date(tokens[6]);
+        String classString = parts[1];
+        Instructor instructor = Instructor.valueOf(parts[2].toUpperCase());
+        Location studio = Location.valueOf(parts[3].toUpperCase());
+        String firstName = parts[4];
+        String lastName = parts[5];
+        Date dob = new Date(parts[6]);
         Profile profile = new Profile(firstName, lastName, dob);
         Member unregisterGuest = memberList.getMemberFromProfile(profile);
         Offer classType;

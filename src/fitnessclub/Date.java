@@ -206,56 +206,5 @@ public class Date implements Comparable<Date> {
     public String toString() {
         return this.month + "/" + this.day + "/" + this.year;
     }
-
-    /**
-     * Testbed main() for Date class, which tests the isValid() method.
-     * Tests five invalid and two valid test cases.
-     * This is tested with Junit testing as well
-     *
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-
-        Date one = new Date();
-        String currentDate = one.toString();
-        System.out.println("C " + currentDate);
-
-        Date dateCheck1_1 = new Date("15/21/2015");
-        System.out.println("Test Case 1_1 for whether " + dateCheck1_1
-                + " is valid : " + dateCheck1_1.isValid());
-        Date dateCheck1_2 = new Date("0/21/2015");
-        System.out.println("Test Case 1_2 for whether " + dateCheck1_2
-                + " is valid : " + dateCheck1_2.isValid());
-
-        Date dateCheck2_1 = new Date("1/32/1997");
-        System.out.println("Test Case 2_1 for whether " + dateCheck2_1
-                + " is valid : " + dateCheck2_1.isValid());
-        Date dateCheck2_2 = new Date("1/0/1997");
-        System.out.println("Test Case 2_2 for whether " + dateCheck2_2
-                + " is valid : " + dateCheck2_2.isValid());
-
-        Date dateCheck3_1 = new Date("6/31/2000");
-        System.out.println("Test Case 3_1 for whether " + dateCheck3_1
-                + " is valid : " + dateCheck3_1.isValid());
-        Date dateCheck3_2 = new Date("6/0/2000");
-        System.out.println("Test Case 3_2 for whether " + dateCheck3_2
-                + " is valid : " + dateCheck3_2.isValid());
-
-        Date dateCheck4 = new Date("2/29/2005");
-        System.out.println("Test Case 4 for whether " + dateCheck4
-                + " is valid : " + dateCheck4.isValid());
-
-        Date dateCheck5 = new Date("2/30/2000");
-        System.out.println("Test Case 5 for whether " + dateCheck5
-                + " is valid : " + dateCheck5.isValid());
-
-        Date dateCheck6 = new Date("1/27/2009");
-        System.out.println("Test Case 6 for whether " + dateCheck6
-                + " is valid : " + dateCheck6.isValid());
-
-        Date dateCheck7 = new Date("2/29/2000");
-        System.out.println("Test Case 7 for whether " + dateCheck7
-                + " is valid : " + dateCheck7.isValid());
-    }
 }
 
