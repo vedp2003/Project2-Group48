@@ -43,13 +43,13 @@ public class DateTest {
     }
 
     @Test
-    public void testValidDayMonth() {
+    public void testValidDate() {
         Date dateCheck6 = new Date("1/27/2009");
         assertTrue(dateCheck6.isValid());
     }
 
     @Test
-    public void testValidFebLeapDays() {
+    public void testValidFeb_LeapDays() {
         Date dateCheck7 = new Date("2/29/2000");
         assertTrue(dateCheck7.isValid());
     }

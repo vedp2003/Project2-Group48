@@ -1,76 +1,84 @@
 package fitnessclub;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class MemberListTest {
 
-    private MemberList memberList;
-    private Member basicMember, familyMember, premiumMember, nonExistingMember;
-
-    @Before
-    public void setUp() {
-        memberList = new MemberList();
-        Profile profile1 = new Profile("Vivek", "Man", new Date("10/3/1994"));
-        Profile profile2 = new Profile("Ved", "Pat", new Date("10/15/1979"));
-        Profile profile3 = new Profile("Bob", "Dylan", new Date("2/30/1999"));
-        Profile nonExistingProfile = new Profile("Bad", "User", new Date("1/1/2010"));
-
-        Date expireDateB = new Date().plusMonths(1);
-        Date expireDateF = new Date().plusMonths(3);
-        Date expireDateP = new Date().plusYears(1);
-
-        basicMember = new Basic(profile1, expireDateB, Location.BRIDGEWATER, 0);
-        familyMember = new Family(profile2, expireDateF, Location.EDISON, true);
-        premiumMember = new Premium(profile3, expireDateP, Location.PISCATAWAY, 3);
-        nonExistingMember = new Basic(nonExistingProfile, expireDateB, Location.SOMERVILLE, 0);
-    }
-
     @Test
     public void addBasicMemberTrue() {
+        MemberList memberList = new MemberList();
+        Profile profileB = new Profile("Vivek", "Man", new Date("10/3/1994"));
+        Date expireDateB = new Date().plusMonths(1);
+        Member basicMember = new Basic(profileB, expireDateB, Location.FRANKLIN, 0);
         assertTrue(memberList.add(basicMember));
     }
 
     @Test
     public void addFamilyMemberTrue() {
+        MemberList memberList = new MemberList();
+        Profile profileF = new Profile("Ved", "Pat", new Date("10/15/1979"));
+        Date expireDateF = new Date().plusMonths(3);
+        Member familyMember = new Family(profileF, expireDateF, Location.EDISON, true);
         assertTrue(memberList.add(familyMember));
     }
 
     @Test
     public void addPremiumMemberTrue() {
+        MemberList memberList = new MemberList();
+        Profile profileP = new Profile("Bob", "Dylan", new Date("2/30/1999"));
+        Date expireDateP = new Date().plusYears(1);
+        Member premiumMember = new Premium(profileP, expireDateP, Location.PISCATAWAY, 3);
         assertTrue(memberList.add(premiumMember));
     }
 
-    // False cases for adding duplicate members
     @Test
     public void addBasicMemberFalse() {
+        MemberList memberList = new MemberList();
+        Profile profileB = new Profile("Vivek", "Man", new Date("10/3/1994"));
+        Date expireDateB = new Date().plusMonths(1);
+        Member basicMember = new Basic(profileB, expireDateB, Location.FRANKLIN, 0);
         memberList.add(basicMember);
         assertFalse(memberList.add(basicMember));
     }
 
     @Test
     public void addFamilyMemberFalse() {
+        MemberList memberList = new MemberList();
+        Profile profileF = new Profile("Ved", "Pat", new Date("10/15/1979"));
+        Date expireDateF = new Date().plusMonths(3);
+        Member familyMember = new Family(profileF, expireDateF, Location.EDISON, true);
         memberList.add(familyMember);
         assertFalse(memberList.add(familyMember));
     }
 
     @Test
     public void addPremiumMemberFalse() {
+        MemberList memberList = new MemberList();
+        Profile profileP = new Profile("Bob", "Dylan", new Date("2/30/1999"));
+        Date expireDateP = new Date().plusYears(1);
+        Member premiumMember = new Premium(profileP, expireDateP, Location.PISCATAWAY, 3);
         memberList.add(premiumMember);
         assertFalse(memberList.add(premiumMember));
     }
 
     @Test
     public void removeMemberTrue() {
-        memberList.add(basicMember);
-        assertTrue(memberList.remove(basicMember));
+        MemberList memberList = new MemberList();
+        Profile profileP = new Profile("Shaun", "Yeet", new Date("1/13/2001"));
+        Date expireDateP = new Date().plusYears(1);
+        Member premiumMember = new Premium(profileP, expireDateP, Location.SOMERVILLE, 3);
+        memberList.add(premiumMember);
+        assertTrue(memberList.remove(premiumMember));
     }
 
-    // False case for removing a non-existent member
     @Test
     public void removeMemberFalse() {
-        assertFalse(memberList.remove(nonExistingMember));
+        MemberList memberList = new MemberList();
+        Profile profileP = new Profile("Shaun", "Yeet", new Date("1/13/2001"));
+        Date expireDateP = new Date().plusYears(1);
+        Member premiumMember = new Premium(profileP, expireDateP, Location.SOMERVILLE, 3);
+        assertFalse(memberList.remove(premiumMember));
     }
 }
