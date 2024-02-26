@@ -71,10 +71,11 @@ public class Premium extends Member {
         String result;
 
         if (isExpired()) {
-            result = ", (Premium) guest-pass remaining: not eligible";
+            result = "not eligible";
         } else {
-            result = " (Premium) Guess-pass remaining: " + this.getGuestPass();
+            result = "" + this.getGuestPass();
         }
-        return super.toString() + result;
+        return super.toString() + ", (Premium) guest-pass remaining: " + result;
+
     }
 }
